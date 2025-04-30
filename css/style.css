@@ -1,0 +1,635 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f0;
+    color: #333;
+}
+
+header {
+    background-color: #2E7D32;
+    color: white;
+    padding: 1rem 20px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    flex-grow: 1;
+    text-align: left;
+}
+
+nav {
+    /* margin: 0 auto; Убираем центрирование навигации */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    background-color: #1B5E20;
+    padding: 10px 18px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    border: 1px solid #A5D6A7;
+}
+
+nav ul li a:hover {
+    background-color: #388E3C; /* Более светлый зеленый при наведении */
+    transform: translateY(-2px); /* Небольшой подъем при наведении */
+}
+
+/* ВОЗВРАЩАЕМ Анимацию для кнопки */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); /* Оранжевый цвет свечения */
+    }
+    70% {
+        box-shadow: 0 0 10px 15px rgba(255, 152, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0);
+    }
+}
+
+/* Стили для кнопки Каталог (применяем анимацию) */
+#catalog-link {
+    background-color: #FF9800; /* Основной оранжевый цвет кнопки */
+    border-color: #FFA726;
+    animation: pulse 2s infinite;
+    position: relative; /* Для корректной работы box-shadow */
+    z-index: 1; /* Чтобы тень не перекрывалась другими кнопками */
+}
+
+#catalog-link:hover {
+    background-color: #FB8C00; /* Чуть темнее оранжевый при наведении */
+    animation-play-state: paused; /* Приостанавливаем анимацию при наведении */
+}
+
+main {
+    padding: 0;
+    font-size: 1.1rem;
+}
+
+.hero {
+    text-align: center;
+    background-color: #A5D6A7;
+    padding: 40px 20px;
+}
+
+.hero h2 {
+    margin-top: 0;
+}
+
+.hero button {
+    background-color: #FF9800;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.features {
+    background-color: white;
+    padding: 30px 20px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    color: #333;
+}
+
+.features h3 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.features ul li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-align: left;
+    line-height: 1.6;
+}
+
+.features ul li strong {
+    color: #2E7D32;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 0;
+    background-color: #1B5E20;
+    color: white;
+}
+
+footer a {
+    color: #A5D6A7;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer h4 {
+    margin-bottom: 15px;
+    color: white;
+}
+
+/* Стили для секции с картой */
+#map-section {
+    padding: 20px;
+    text-align: center;
+    background-color: #E8F5E9;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Стили для секции "Как это работает" */
+.info-section {
+    background-color: #f0f4f0;
+    padding: 30px 20px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.info-section h3 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+}
+
+.info-section ol {
+    list-style-position: inside;
+    margin-left: 20px;
+    line-height: 1.6;
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none; /* Возвращаем! Скрыто по умолчанию */
+    position: fixed; /* Фиксированное позиционирование */
+    z-index: 1000; /* Поверх всего */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Оставим на всякий случай, если контент очень длинный */
+    background-color: rgba(0, 0, 0, 0.6); /* Сделаем фон чуть темнее */
+    /* Центрирование через Flexbox будет установлено JS при открытии */
+    /* display: flex; Убираем отсюда */ 
+    align-items: center; /* Вертикальное центрирование */
+    justify-content: center; /* Горизонтальное центрирование */
+    
+}
+
+/* Скроем изначально через visibility/opacity для плавности (если захотим) */
+/*.modal {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}*/
+
+/*.modal.active {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}*/
+
+.modal-content {
+    background-color: #fefefe;
+    /* margin: 15% auto; Убираем старый margin */
+    margin: 20px; /* Небольшой отступ от краев */
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; /* Ширина относительно родителя */
+    /* max-width: 500px; Убрали для .auth-modal ниже */
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-height: 90vh; /* Макс высота, чтобы помещалось */
+    overflow-y: auto; /* Добавляем скролл внутри контента, если не помещается */
+}
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.modal h2 {
+    text-align: center;
+    color: #2E7D32;
+    margin-bottom: 20px;
+}
+
+.modal ul {
+    list-style: none;
+    padding: 0;
+}
+
+.modal ul li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Стили для кнопок Вход/Регистрация */
+.auth-buttons {
+    /* margin-left: auto; Отодвигаем вправо (альтернатива flexbox в header) */
+}
+
+.auth-btn {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.auth-btn:hover {
+    background-color: white;
+    color: #2E7D32;
+}
+
+/* Стили для модальных окон аутентификации */
+.auth-modal .modal-content {
+    max-width: 400px;
+}
+
+.auth-modal h2 {
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    border-color: #2E7D32;
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
+}
+
+.form-group .error-message {
+    color: #dc3545;
+    font-size: 0.8rem;
+    display: block;
+    min-height: 1em;
+    margin-top: 3px;
+}
+
+.form-group input.invalid {
+    border-color: #dc3545;
+}
+
+.submit-btn {
+    background-color: #2E7D32;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #1B5E20;
+}
+
+.social-login {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.social-login p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.social-btn {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+    background-color: white;
+    transition: background-color 0.3s ease;
+}
+
+.social-btn.gmail {
+    color: #db4437;
+    border-color: #db4437;
+}
+.social-btn.gmail:hover {
+    background-color: #db4437;
+    color: white;
+}
+
+.social-btn.sber {
+    color: #209e46;
+    border-color: #209e46;
+}
+.social-btn.sber:hover {
+    background-color: #209e46;
+    color: white;
+}
+
+/* Плавная прокрутка */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Стили для секции Каталог */
+#catalog {
+    padding: 40px 20px;
+    background-color: #e8f5e9; /* Очень светло-зеленый */
+    text-align: center;
+}
+
+#catalog h2 {
+    color: #2E7D32; /* Темно-зеленый заголовок */
+    margin-bottom: 30px;
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Адаптивная сетка */
+    gap: 30px; /* Отступы между карточками */
+    max-width: 1200px; /* Ограничим макс. ширину сетки */
+    margin: 0 auto; /* Центрируем сетку */
+}
+
+.bike-card {
+    background-color: white;
+    border-radius: 15px; /* Более скругленные углы */
+    padding: 15px; /* Уменьшим паддинг */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Мягкая тень */
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; /* Используем flex для структуры */
+    flex-direction: column; /* Элементы в столбец */
+    cursor: pointer; /* Показываем, что можно кликнуть */
+}
+
+.bike-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.bike-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: block; /* Убираем лишний отступ снизу */
+}
+
+.bike-card-header {
+    margin-bottom: 10px;
+}
+
+.bike-card h4 {
+    color: #333; /* Темнее */
+    margin: 0;
+    font-size: 1.2rem; /* Крупнее */
+    font-weight: 600; /* Полужирный */
+}
+
+.bike-card p.bike-short-desc {
+    font-size: 0.9rem; /* Мельче */
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Занимает доступное место, отодвигая кнопку вниз */
+}
+
+.bike-card-rent-options {
+    margin-bottom: 15px;
+    /* Стили для селектора выбора срока аренды будут здесь */
+}
+
+.bike-card p.price {
+    font-weight: 600; /* Полужирный */
+    color: #333;
+    font-size: 1rem; /* Обычный размер */
+    margin-bottom: 0;
+}
+
+.want-bike-btn { /* Новый стиль для кнопки */
+    background-color: #fdd835; /* Ярко-желтый */
+    color: #333; /* Темный текст */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.want-bike-btn:hover {
+    background-color: #fbc02d; /* Чуть темнее желтый */
+}
+
+.want-bike-btn:active {
+    transform: scale(0.98);
+}
+
+.features h3 {
+    text-align: center;
+    color: white;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.features ul li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-align: left;
+    line-height: 1.6;
+}
+
+.features ul li strong {
+    color: #2E7D32;
+}
+
+.features ul li strong {
+    color: #2E7D32;
+}
+
+/* Стили для модального окна деталей велосипеда */
+.bike-modal .modal-content {
+    max-width: 900px; /* Шире, чем окна аутентификации */
+    padding: 0; /* Убираем общий паддинг, т.к. разделим на секции */
+    overflow: hidden; /* Чтобы скругление работало */
+}
+
+.bike-modal .close-button {
+    z-index: 10; /* Над другими элементами */
+    color: #888;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
+}
+
+.bike-modal-body {
+    display: flex;
+    /* flex-wrap: wrap; */ /* Можно добавить для маленьких экранов */
+}
+
+.bike-modal-gallery {
+    flex: 1 1 55%; /* Занимает ~55% ширины */
+    background-color: #f8f8f8; /* Фон для картинки */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.bike-modal-gallery img {
+    max-width: 100%;
+    max-height: 450px; /* Ограничим высоту */
+    height: auto;
+    display: block;
+}
+
+.bike-modal-info {
+    flex: 1 1 45%; /* Занимает ~45% ширины */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bike-modal-info h3 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.bike-modal-info p#modal-bike-desc {
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.bike-modal-info h4 {
+    color: #444;
+    font-size: 1.1rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.specs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.specs-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 0.95rem;
+    color: #555;
+    border-bottom: 1px dotted #eee;
+}
+.specs-list li:last-child {
+    border-bottom: none;
+}
+
+.specs-list li span:first-child {
+    /* color: #777; */
+}
+
+.specs-list li span:last-child {
+    font-weight: 600;
+    color: #333;
+}
+
+.pricing-options {
+    margin-bottom: 25px;
+    /* Стили для отображения цен */
+}
+
+.pricing-options p {
+     margin: 5px 0;
+     font-size: 0.95rem;
+}
+
+.bike-modal-info .want-bike-btn {
+    margin-top: auto; /* Прижимаем кнопку к низу */
+} 
