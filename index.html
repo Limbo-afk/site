@@ -11,6 +11,12 @@
 <body>
     <header>
         <h1>Велопрокат "Крути Педали"</h1>
+        <!-- Пасхалка -->
+        <div id="easter-egg" class="easter-egg-container" style="display: none;">
+            <input type="text" id="easter-input" placeholder="Что ищем?">
+            <button id="easter-btn">Го</button>
+        </div>
+        <!-- Конец пасхалки -->
         <nav>
             <ul>
                 <li><a href="#">Главная</a></li>
@@ -30,7 +36,14 @@
         <!-- Секция с картой -->
         <section id="map-section">
             <h2>Найди ближайший велосипед</h2>
-            <div id="map"></div>
+            <div class="map-layout">
+                <div class="map-image-container">
+                    <img src="img/photo_2025-04-24_15-52-34.jpg" alt="Велосипедист в городе">
+                </div>
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
         </section>
 
         <section class="hero">
@@ -46,15 +59,15 @@
                 <!-- Карточка 1 -->
                 <div class="bike-card bike-card-clickable" 
                      data-name="Городской Комфорт"
-                     data-img="https://placehold.co/600x400/a5d6a7/333?text=Городской+1"
+                     data-img='["img/gorod/gorod1.png", "img/gorod/gorod2.png", "img/gorod/gorod3.png", "img/gorod/gorod4.png"]'
                      data-desc="Идеален для неспешных прогулок по паркам и набережной. Лёгкая рама, удобное седло."
                      data-specs='{"Вес": "14 кг", "Материал рамы": "Алюминий", "Скорости": "7", "Колёса": "28 дюймов", "Тормоза": "Ободные"}'
-                     data-price-info='{"1 час": "150 ₽", "3 часа": "400 ₽", "1 день": "800 ₽"}'>
+                     data-price-info='{"1 час": "150", "3 часа": "400", "1 день": "800"}'>
                     <div class="bike-card-header">
                         <h4>Городской Комфорт</h4>
                         <!-- <span class="badge">Выбор покупателей</span> -->
                     </div>
-                    <img src="https://placehold.co/300x200/a5d6a7/333?text=Городской\nВелосипед" alt="Городской велосипед" class="bike-card-image">
+                    <img src="img/gorod/gorod1.png" alt="Городской велосипед" class="bike-card-image">
                     <p class="bike-short-desc">Идеален для неспешных прогулок.</p>
                     <div class="bike-card-rent-options">
                          <p class="price">от 150 ₽ / час</p>
@@ -65,14 +78,14 @@
                 <!-- Карточка 2 -->
                  <div class="bike-card bike-card-clickable"
                      data-name="Горный Проходимец"
-                     data-img="https://placehold.co/600x400/ffcc80/333?text=Горный+1"
+                     data-img='["img/gorni/gorni1.png", "img/gorni/gorni2.png", "img/gorni/gorni3.png", "img/gorni/gorni4.png"]'
                      data-desc="Для тех, кто любит маршруты посложнее и лесные тропы. Амортизационная вилка, надёжные тормоза."
                      data-specs='{"Вес": "15.5 кг", "Материал рамы": "Сталь", "Скорости": "21", "Колёса": "27,5 дюймов", "Тормоза": "Дисковые мех."}'
-                     data-price-info='{"1 час": "250 ₽", "3 часа": "650 ₽", "1 день": "1200 ₽"}'>
+                     data-price-info='{"1 час": "250", "3 часа": "650", "1 день": "1200"}'>
                      <div class="bike-card-header">
                         <h4>Горный Проходимец</h4>
                     </div>
-                    <img src="https://placehold.co/300x200/ffcc80/333?text=Горный\nВелосипед" alt="Горный велосипед" class="bike-card-image">
+                    <img src="img/gorni/gorni1.png" alt="Горный велосипед" class="bike-card-image">
                     <p class="bike-short-desc">Покоряй бездорожье!</p>
                      <div class="bike-card-rent-options">
                          <p class="price">от 250 ₽ / час</p>
@@ -82,14 +95,14 @@
                 <!-- Карточка 3 -->
                 <div class="bike-card bike-card-clickable"
                      data-name="Складной Малыш"
-                     data-img="https://placehold.co/600x400/81d4fa/333?text=Складной+1"
+                     data-img='["img/skladnoi/skladnoi1.png", "img/skladnoi/skladnoi2.png", "img/skladnoi/skladnoi3.png", "img/skladnoi/skladnoi4.png"]'
                      data-desc="Удобно хранить и перевозить. Отличный выбор для мобильных горожан."
                      data-specs='{"Вес": "13 кг", "Материал рамы": "Алюминий", "Скорости": "1", "Колёса": "20 дюймов", "Тормоза": "Ножной"}'
-                     data-price-info='{"1 час": "200 ₽", "3 часа": "500 ₽", "1 день": "900 ₽"}'>
+                     data-price-info='{"1 час": "200", "3 часа": "500", "1 день": "900"}'>
                      <div class="bike-card-header">
                         <h4>Складной Малыш</h4>
                     </div>
-                    <img src="https://placehold.co/300x200/81d4fa/333?text=Складной\nВелосипед" alt="Складной велосипед" class="bike-card-image">
+                    <img src="img/skladnoi/skladnoi1.png" alt="Складной велосипед" class="bike-card-image">
                     <p class="bike-short-desc">Компактный и легкий.</p>
                      <div class="bike-card-rent-options">
                          <p class="price">от 200 ₽ / час</p>
@@ -134,6 +147,18 @@
         <p>Telegram: <a href="https://t.me/LadnoBydetTakoe" target="_blank">@LadnoBydetTakoe</a></p>
         <p>&copy; 2024 Велопрокат "Крути Педали"</p>
     </footer>
+
+    <!-- Модальное окно для видео (Пасхалка) -->
+    <div id="video-modal" class="modal video-easter-modal">
+        <div class="modal-content video-modal-content">
+            <!-- <span class="close-button">&times;</span> Убираем крестик -->
+            <video id="easter-video" width="100%" controls controlslist="nodownload" loop muted>
+                <!-- Добавлены loop и muted -->
+                <!-- Источник будет подставлен JS -->
+                Ваш браузер не поддерживает тег video.
+            </video>
+        </div>
+    </div>
 
     <!-- Модальное окно Входа -->
     <div id="login-modal" class="modal auth-modal">
@@ -208,8 +233,12 @@
             <span class="close-button">&times;</span>
             <div class="bike-modal-body">
                 <div class="bike-modal-gallery">
+                    <button class="carousel-btn prev" id="carousel-prev" aria-label="Предыдущее фото">&lt;</button>
                     <img id="modal-bike-image" src="" alt="Велосипед">
-                    <!-- Сюда можно добавить точки для карусели -->
+                    <button class="carousel-btn next" id="carousel-next" aria-label="Следующее фото">&gt;</button>
+                    <div class="carousel-dots" id="carousel-dots-container">
+                        <!-- Сюда JS добавит точки -->
+                    </div>
                 </div>
                 <div class="bike-modal-info">
                     <h3 id="modal-bike-title">Название велосипеда</h3>
@@ -218,9 +247,12 @@
                     <ul id="modal-bike-specs" class="specs-list">
                         <!-- Сюда JS добавит характеристики -->
                     </ul>
-                    <h4>Стоимость аренды:</h4>
-                    <div id="modal-bike-pricing" class="pricing-options">
-                         <!-- Сюда JS добавит цены -->
+                    <h4>Выберите срок аренды:</h4>
+                    <div id="modal-rent-duration" class="rent-duration-options">
+                        <!-- Сюда JS добавит радио-кнопки -->
+                    </div>
+                    <div class="modal-price-display">
+                        Стоимость: <strong id="modal-current-price">---</strong>
                     </div>
                      <button class="want-bike-btn">Хочу этот велик</button>
                 </div>

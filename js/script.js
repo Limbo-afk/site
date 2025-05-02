@@ -86,6 +86,16 @@ const modalBikeTitle = document.getElementById('modal-bike-title');
 const modalBikeDesc = document.getElementById('modal-bike-desc');
 const modalBikeSpecsList = document.getElementById('modal-bike-specs');
 const modalBikePricingDiv = document.getElementById('modal-bike-pricing');
+const modalRentDurationDiv = document.getElementById('modal-rent-duration');
+const modalCurrentPriceStrong = document.getElementById('modal-current-price');
+const carouselPrevBtn = document.getElementById('carousel-prev');
+const carouselNextBtn = document.getElementById('carousel-next');
+const carouselDotsContainer = document.getElementById('carousel-dots-container');
+
+// Переменные для состояния карусели и цен
+let currentImages = [];
+let currentImageIndex = 0;
+let currentPriceInfo = {};
 
 // Функция открытия модального окна
 function openModal(modal) {
@@ -127,6 +137,9 @@ window.addEventListener('click', (event) => {
     }
     if (event.target === bikeDetailModal) {
         closeModal(bikeDetailModal);
+    }
+    if (event.target === videoModal) {
+        closeModal(videoModal);
     }
 });
 
@@ -272,16 +285,19 @@ bikeCards.forEach(card => {
     card.addEventListener('click', () => {
         // Получаем данные из атрибутов
         const name = card.dataset.name;
-        const img = card.dataset.img;
+        const imgArray = JSON.parse(card.dataset.img || '[]'); // Парсим массив картинок
         const desc = card.dataset.desc;
         const specs = JSON.parse(card.dataset.specs || '{}');
         const priceInfo = JSON.parse(card.dataset.priceInfo || '{}');
 
         // Заполняем модальное окно
         modalBikeTitle.textContent = name;
-        modalBikeImage.src = img;
-        modalBikeImage.alt = name;
         modalBikeDesc.textContent = desc;
+
+        // Инициализация карусели
+        currentImages = imgArray;
+        currentImageIndex = 0;
+        updateCarousel();
 
         // Заполняем характеристики
         modalBikeSpecsList.innerHTML = ''; // Очищаем старые
@@ -296,12 +312,32 @@ bikeCards.forEach(card => {
             modalBikeSpecsList.appendChild(li);
         }
 
-        // Заполняем цены (просто списком)
-        modalBikePricingDiv.innerHTML = ''; // Очищаем старые
-         for (const key in priceInfo) {
-            const p = document.createElement('p');
-            p.textContent = `${key}: ${priceInfo[key]}`;
-            modalBikePricingDiv.appendChild(p);
+        // Заполняем опции аренды и цены
+        currentPriceInfo = priceInfo;
+        modalRentDurationDiv.innerHTML = ''; // Очищаем старые опции
+        modalCurrentPriceStrong.textContent = '---'; // Сбрасываем цену
+        let firstOption = true;
+         for (const duration in priceInfo) {
+            const price = priceInfo[duration];
+            const inputId = `duration-${duration.replace(/\s+/g, '-')}`; // Генерируем ID
+
+            const radioInput = document.createElement('input');
+            radioInput.type = 'radio';
+            radioInput.id = inputId;
+            radioInput.name = 'rent-duration';
+            radioInput.value = duration;
+            if (firstOption) {
+                radioInput.checked = true; // Выбираем первую опцию по умолчанию
+                updatePriceDisplay(duration); // Обновляем цену для первой опции
+                firstOption = false;
+            }
+
+            const label = document.createElement('label');
+            label.htmlFor = inputId;
+            label.textContent = duration;
+
+            modalRentDurationDiv.appendChild(radioInput);
+            modalRentDurationDiv.appendChild(label);
         }
 
         // Открываем модальное окно
@@ -309,4 +345,167 @@ bikeCards.forEach(card => {
     });
 });
 
+// Функция обновления карусели
+function updateCarousel() {
+    if (currentImages.length > 0) {
+        modalBikeImage.src = currentImages[currentImageIndex];
+        modalBikeImage.alt = modalBikeTitle.textContent + ` (Фото ${currentImageIndex + 1} из ${currentImages.length})`;
+
+        carouselPrevBtn.disabled = currentImageIndex === 0;
+        carouselNextBtn.disabled = currentImageIndex === currentImages.length - 1;
+        
+        carouselPrevBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
+        carouselNextBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
+
+        // Обновление точек
+        carouselDotsContainer.innerHTML = ''; // Очищаем старые точки
+        if (currentImages.length > 1) {
+            currentImages.forEach((_, index) => {
+                const dot = document.createElement('button'); // Используем button для доступности
+                dot.classList.add('dot');
+                dot.setAttribute('aria-label', `Фото ${index + 1}`);
+                if (index === currentImageIndex) {
+                    dot.classList.add('active');
+                    dot.setAttribute('aria-current', 'true');
+                }
+                dot.addEventListener('click', () => {
+                    currentImageIndex = index;
+                    updateCarousel();
+                });
+                carouselDotsContainer.appendChild(dot);
+            });
+            carouselDotsContainer.style.display = 'flex';
+        } else {
+            carouselDotsContainer.style.display = 'none'; // Скрываем точки, если картинка одна
+        }
+    } else {
+        // Если картинок нет (маловероятно, но на всякий случай)
+        modalBikeImage.src = 'https://placehold.co/600x400/ccc/999?text=Нет+фото';
+        carouselPrevBtn.style.display = 'none';
+        carouselNextBtn.style.display = 'none';
+    }
+}
+
+// Обработчики кнопок карусели
+carouselPrevBtn.addEventListener('click', () => {
+    if (currentImageIndex > 0) {
+        currentImageIndex--;
+        updateCarousel();
+    }
+});
+
+carouselNextBtn.addEventListener('click', () => {
+    if (currentImageIndex < currentImages.length - 1) {
+        currentImageIndex++;
+        updateCarousel();
+    }
+});
+
+// Функция обновления отображения цены
+function updatePriceDisplay(selectedDuration) {
+    if (currentPriceInfo[selectedDuration]) {
+        modalCurrentPriceStrong.textContent = `${currentPriceInfo[selectedDuration]} ₽`;
+    } else {
+        modalCurrentPriceStrong.textContent = '---';
+    }
+}
+
+// Обработчик изменения выбора срока аренды
+modalRentDurationDiv.addEventListener('change', (event) => {
+    if (event.target.type === 'radio' && event.target.name === 'rent-duration') {
+        updatePriceDisplay(event.target.value);
+    }
+});
+
 // --- Конец логики модальных окон --- 
+
+// --- Логика для пасхалки "приколы" ---
+
+const easterEggContainer = document.getElementById('easter-egg');
+const secretWord = 'приколы';
+let typedSequence = '';
+const sequenceMaxLength = secretWord.length;
+
+// Обработчик нажатия клавиш
+document.addEventListener('keyup', (event) => {
+    // Игнорируем ввод, если фокус на input, textarea или select
+    const activeElement = document.activeElement;
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'SELECT')) {
+        // Если фокус на поле пасхалки, сбросим последовательность, чтобы снова не сработало
+        if (activeElement.id === 'easter-input') {
+            typedSequence = '';
+        }
+        return;
+    }
+    
+    // Получаем нажатую клавишу в нижнем регистре
+    const key = event.key.toLowerCase();
+
+    // Добавляем символ к последовательности, если это одна буква
+    if (key.length === 1 && key.match(/[а-яёa-z]/i)) { // Проверяем, что это буква (кириллица или латиница)
+        typedSequence += key;
+    } else {
+        // Сбрасываем последовательность при нажатии других клавиш (Enter, Shift и т.д.)
+        typedSequence = '';
+        return; // Не продолжаем проверку
+    }
+
+    // Обрезаем последовательность до нужной длины
+    if (typedSequence.length > sequenceMaxLength) {
+        typedSequence = typedSequence.slice(-sequenceMaxLength);
+    }
+
+    // Проверяем совпадение
+    if (typedSequence === secretWord) {
+        console.log('Пасхалка активирована!');
+        if (easterEggContainer) {
+            easterEggContainer.style.display = 'flex';
+        }
+        // Можно добавить фокус на поле ввода:
+        // const easterInput = document.getElementById('easter-input');
+        // if (easterInput) easterInput.focus();
+        
+        typedSequence = ''; // Сбрасываем, чтобы не срабатывало повторно сразу
+    }
+});
+
+// Пример действия для кнопки "Го" (можно доработать)
+const easterBtn = document.getElementById('easter-btn');
+const easterInput = document.getElementById('easter-input');
+const videoModal = document.getElementById('video-modal'); // Ссылка на модалку видео
+const easterVideo = document.getElementById('easter-video'); // Ссылка на видео элемент
+
+// Расширим closeModal, чтобы останавливать видео при закрытии
+const originalCloseModal = closeModal; // Сохраняем оригинальную функцию
+closeModal = function(modal) {
+    originalCloseModal(modal); // Вызываем оригинальную логику
+    if (modal === videoModal && easterVideo) {
+        easterVideo.pause(); // Ставим видео на паузу
+        easterVideo.currentTime = 0; // Сбрасываем на начало
+        easterVideo.src = ''; // Очищаем src, чтобы освободить ресурсы
+    }
+}
+
+// Обновляем действие для кнопки "Го"
+if (easterBtn && easterInput && videoModal && easterVideo) {
+    easterBtn.addEventListener('click', () => {
+        const inputText = easterInput.value.trim().toLowerCase();
+        
+        if (inputText === 'washing machine') {
+            console.log('Запускаем видео Washing Machine!');
+            easterVideo.src = 'prikoli/VID_20241031_093817.mp4'; // Устанавливаем источник
+            openModal(videoModal); // Открываем модалку с видео
+            // Пытаемся запустить воспроизведение
+            easterVideo.play().catch(error => {
+                // Обработка ошибки, если автоплей запрещен браузером
+                console.warn("Autoplay был предотвращен браузером:", error);
+                // Можно показать кнопку Play или попросить пользователя кликнуть для старта
+            });
+        } else {
+            // Если введено что-то другое, можно вывести стандартный alert или ничего не делать
+            alert(`Запрос "${easterInput.value}" не является секретным кодом для видео ;)`);
+        }
+    });
+} else {
+    console.error('Не удалось найти все элементы для пасхалки с видео.');
+} 

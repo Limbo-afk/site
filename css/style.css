@@ -18,7 +18,6 @@ header {
 
 header h1 {
     margin: 0;
-    flex-grow: 1;
     text-align: left;
 }
 
@@ -159,15 +158,47 @@ footer h4 {
 
 /* Стили для секции с картой */
 #map-section {
-    padding: 20px;
+    padding: 40px 20px; /* Увеличим вертикальный паддинг */
     text-align: center;
-    background-color: #E8F5E9;
+    background-color: #E8F5E9; /* Очень светло-зеленый */
+}
+
+#map-section h2 {
+    color: #2E7D32; /* Темно-зеленый заголовок */
+    margin-bottom: 30px;
+}
+
+.map-layout {
+    display: flex;
+    align-items: center; /* Выравниваем по центру вертикально */
+    gap: 30px; /* Отступ между картинкой и картой */
+    max-width: 1200px;
+    margin: 0 auto; /* Центрируем */
+}
+
+.map-image-container {
+    flex: 1 1 40%; /* Занимает ~40% ширины */
+    text-align: center; /* Центрируем картинку, если она меньше контейнера */
+}
+
+.map-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.map-container {
+    flex: 1 1 60%; /* Занимает ~60% ширины */
 }
 
 #map {
-    height: 500px;
-    width: 100%;
-    margin-top: 15px;
+    height: 450px; /* Можно сделать чуть ниже */
+    width: 100%;   /* Ширина теперь 100% от .map-container */
+    /* margin-top: 15px; Убрали, т.к. есть gap */
+    border-radius: 10px; /* Добавим скругление карте */
+    overflow: hidden; /* Чтобы скругление работало с элементами карты */
+    /* Убираем рамку и тень, т.к. у Я.Карт свои элементы */
 }
 
 /* Стили для секции "Как это работает" */
@@ -441,12 +472,15 @@ html {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.bike-card img {
+.bike-card img.bike-card-image { /* Уточняем селектор */
     max-width: 100%;
-    height: auto;
+    height: 180px; /* Задаем фиксированную высоту */
+    /* height: auto; Убираем */
     border-radius: 5px;
     margin-bottom: 15px;
     display: block; /* Убираем лишний отступ снизу */
+    object-fit: contain; /* Вписываем изображение */
+    object-position: center; /* Центрируем его */
 }
 
 .bike-card-header {
@@ -466,6 +500,7 @@ html {
     line-height: 1.4;
     margin-bottom: 15px;
     flex-grow: 1; /* Занимает доступное место, отодвигая кнопку вниз */
+    /* min-height: 4.2em; Убираем пока что */
 }
 
 .bike-card-rent-options {
@@ -554,6 +589,7 @@ html {
     align-items: center;
     justify-content: center;
     padding: 20px;
+    position: relative; /* Для позиционирования кнопок */
 }
 
 .bike-modal-gallery img {
@@ -561,6 +597,7 @@ html {
     max-height: 450px; /* Ограничим высоту */
     height: auto;
     display: block;
+    color: #333;
 }
 
 .bike-modal-info {
@@ -632,4 +669,165 @@ html {
 
 .bike-modal-info .want-bike-btn {
     margin-top: auto; /* Прижимаем кнопку к низу */
+}
+
+.rent-duration-options {
+    display: flex;
+    gap: 15px; /* Отступ между опциями */
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.rent-duration-options label {
+    display: block;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.rent-duration-options input[type="radio"] {
+    display: none; /* Скрываем стандартный радио-баттон */
+}
+
+.rent-duration-options input[type="radio"]:checked + label {
+    background-color: #e8f5e9; /* Светло-зеленый фон выбранного */
+    border-color: #2E7D32; /* Зеленая рамка */
+    color: #2E7D32; /* Зеленый текст */
+    font-weight: 600;
+}
+
+.rent-duration-options label:hover {
+    background-color: #f4f4f4;
+}
+
+.modal-price-display {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    color: #444;
+}
+
+.modal-price-display strong {
+    color: #2E7D32; /* Зеленый для цены */
+    font-size: 1.3rem;
+}
+
+/* Стили для кнопок карусели */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 5;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
+
+.carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+/* Стили для точек карусели */
+.carousel-dots {
+    position: absolute;
+    bottom: 15px; /* Отступ снизу */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px; /* Расстояние между точками */
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.3); /* Полупрозрачный серый */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dot.active {
+    background-color: #fdd835; /* Желтый цвет активной точки */
+}
+
+/* Стили для пасхалки */
+.easter-egg-container {
+    display: flex; /* По умолчанию none, но если покажем, то flex */
+    align-items: center;
+    margin-left: 20px; /* Отступ от заголовка */
+}
+
+#easter-input {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 0.9rem;
+}
+
+#easter-btn {
+    padding: 5px 15px;
+    background-color: #fdd835; /* Желтый */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+#easter-btn:hover {
+    background-color: #fbc02d;
+}
+
+/* Стили для модального окна с видео */
+.video-modal-content {
+    background-color: black; /* Черный фон для видео */
+    padding: 10px;
+    max-width: 800px; /* Ограничим ширину */
+    width: 90%;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.video-modal-content .close-button {
+    color: white;
+    opacity: 0.7;
+    font-size: 35px;
+    top: 0px;
+    right: 15px;
+}
+.video-modal-content .close-button:hover {
+    opacity: 1;
+}
+
+#easter-video {
+    display: block; /* Убираем лишние отступы */
+    max-height: 80vh; /* Ограничиваем высоту видео */
 } 
