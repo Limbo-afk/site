@@ -1,13 +1,23 @@
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f4f0;
-    color: #333;
+    /* background-color: #f8f8fa; */
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #FF00FF, #00FFFF); /* Более сложный градиент */
+    background-size: 400% 400%; /* Увеличиваем размер для анимации */
+    animation: gradientAnimation 15s ease infinite; /* Применяем анимацию */
+    color: #333; /* Основной цвет текста оставляем темным */
 }
 
 header {
-    background-color: #2E7D32;
+    /* Оставляем градиент Орхидея -> Индиго для контраста */
+    background: linear-gradient(to bottom right, #DA70D6, #4B0082);
     color: white;
     padding: 1rem 20px;
     text-align: center;
@@ -16,9 +26,16 @@ header {
     align-items: center;
 }
 
-header h1 {
+header h1.site-title { /* Используем класс */
     margin: 0;
     text-align: left;
+    color: #4B0082; /* Цвет Индиго */
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    /* Добавляем фон и скругление */
+    background-color: rgba(255, 255, 255, 0.15); /* Полупрозрачный белый фон */
+    padding: 10px 20px; /* Отступы внутри блока */
+    border-radius: 30px; /* Скругленные углы */
+    display: inline-block; /* Чтобы padding и radius применились корректно */
 }
 
 nav {
@@ -36,46 +53,49 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
+    color: white; /* Белый текст */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Тень для читаемости */
     text-decoration: none;
-    background-color: #1B5E20;
+    /* background-color: transparent; */
+    background: linear-gradient(to bottom right, #FF00FF, #00FFFF); /* Градиент Маджента -> Циан */
     padding: 10px 18px;
     border-radius: 25px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background 0.5s ease, transform 0.2s ease; /* Плавный переход градиента */
     display: inline-block;
-    border: 1px solid #A5D6A7;
+    border: none; /* Убираем рамку */
 }
 
 nav ul li a:hover {
-    background-color: #388E3C; /* Более светлый зеленый при наведении */
-    transform: translateY(-2px); /* Небольшой подъем при наведении */
+    /* background-color: rgba(255, 255, 255, 0.15); */
+    /* border-color: white; */
+    background: linear-gradient(to top left, #FF00FF, #00FFFF); /* Меняем направление градиента */
+    transform: translateY(-2px);
 }
 
 /* ВОЗВРАЩАЕМ Анимацию для кнопки */
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); /* Оранжевый цвет свечения */
+        box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
     }
     70% {
-        box-shadow: 0 0 10px 15px rgba(255, 152, 0, 0);
+        box-shadow: 0 0 10px 15px rgba(0, 255, 255, 0);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0);
+        box-shadow: 0 0 0 0 rgba(0, 255, 255, 0);
     }
 }
 
-/* Стили для кнопки Каталог (применяем анимацию) */
+/* Стили для кнопки Каталог (ОСТАВЛЯЕМ ТОЛЬКО АНИМАЦИЮ) */
 #catalog-link {
-    background-color: #FF9800; /* Основной оранжевый цвет кнопки */
-    border-color: #FFA726;
+    /* Стили фона, текста, рамки теперь общие для nav ul li a */
     animation: pulse 2s infinite;
     position: relative; /* Для корректной работы box-shadow */
     z-index: 1; /* Чтобы тень не перекрывалась другими кнопками */
 }
 
 #catalog-link:hover {
-    background-color: #FB8C00; /* Чуть темнее оранжевый при наведении */
-    animation-play-state: paused; /* Приостанавливаем анимацию при наведении */
+    /* Стиль ховера теперь общий */
+    animation-play-state: paused;
 }
 
 main {
@@ -103,7 +123,7 @@ main {
 }
 
 .features {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый */
     padding: 30px 20px;
     margin: 20px;
     border-radius: 8px;
@@ -113,7 +133,7 @@ main {
 
 .features h3 {
     text-align: center;
-    color: #2E7D32;
+    color: #4B0082;
     margin-bottom: 20px;
 }
 
@@ -131,19 +151,19 @@ main {
 }
 
 .features ul li strong {
-    color: #2E7D32;
+    color: #4B0082;
 }
 
 footer {
     text-align: center;
     padding: 15px;
     margin-top: 0;
-    background-color: #1B5E20;
+    background: linear-gradient(to top right, #DA70D6, #4B0082);
     color: white;
 }
 
 footer a {
-    color: #A5D6A7;
+    color: #f0f0f0;
     text-decoration: none;
 }
 
@@ -158,52 +178,66 @@ footer h4 {
 
 /* Стили для секции с картой */
 #map-section {
-    padding: 40px 20px; /* Увеличим вертикальный паддинг */
+    padding: 40px 20px;
     text-align: center;
-    background-color: #E8F5E9; /* Очень светло-зеленый */
+    background: none; /* Убираем фон */
 }
 
 #map-section h2 {
-    color: #2E7D32; /* Темно-зеленый заголовок */
+    color: #4B0082;
     margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.4); /* Тень для читаемости на градиенте */
 }
 
 .map-layout {
     display: flex;
-    align-items: center; /* Выравниваем по центру вертикально */
-    gap: 30px; /* Отступ между картинкой и картой */
+    align-items: flex-start;
+    gap: 30px;
     max-width: 1200px;
-    margin: 0 auto; /* Центрируем */
+    margin: 0 auto;
 }
 
 .map-image-container {
-    flex: 1 1 40%; /* Занимает ~40% ширины */
-    text-align: center; /* Центрируем картинку, если она меньше контейнера */
+    /* Убираем фон, паддинг и скругление отсюда */
+    /* background-color: #E0B0FF; */
+    /* padding: 0; */
+    /* border-radius: 10px; */
+    flex: 1 1 40%;
+    text-align: center;
 }
 
 .map-image-container img {
+    /* Оставляем стили для самой картинки */
     max-width: 100%;
     height: auto;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Стили для подписи к картинке */
+.image-caption {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 0.9em;
+    color: #4B0082; /* Индиго, чтобы было видно на светлом фоне */
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.3); /* Легкая тень */
+}
+
 .map-container {
-    flex: 1 1 60%; /* Занимает ~60% ширины */
+    flex: 1 1 60%;
 }
 
 #map {
-    height: 450px; /* Можно сделать чуть ниже */
-    width: 100%;   /* Ширина теперь 100% от .map-container */
-    /* margin-top: 15px; Убрали, т.к. есть gap */
-    border-radius: 10px; /* Добавим скругление карте */
-    overflow: hidden; /* Чтобы скругление работало с элементами карты */
-    /* Убираем рамку и тень, т.к. у Я.Карт свои элементы */
+    height: 450px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 /* Стили для секции "Как это работает" */
 .info-section {
-    background-color: #f0f4f0;
+    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый */
     padding: 30px 20px;
     margin: 20px;
     border-radius: 8px;
@@ -212,7 +246,7 @@ footer h4 {
 
 .info-section h3 {
     text-align: center;
-    color: #2E7D32;
+    color: #4B0082;
     margin-bottom: 20px;
 }
 
@@ -224,48 +258,30 @@ footer h4 {
 
 /* Стили для модального окна */
 .modal {
-    display: none; /* Возвращаем! Скрыто по умолчанию */
-    position: fixed; /* Фиксированное позиционирование */
-    z-index: 1000; /* Поверх всего */
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Оставим на всякий случай, если контент очень длинный */
-    background-color: rgba(0, 0, 0, 0.6); /* Сделаем фон чуть темнее */
-    /* Центрирование через Flexbox будет установлено JS при открытии */
-    /* display: flex; Убираем отсюда */ 
-    align-items: center; /* Вертикальное центрирование */
-    justify-content: center; /* Горизонтальное центрирование */
-    
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
 }
 
-/* Скроем изначально через visibility/opacity для плавности (если захотим) */
-/*.modal {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-}*/
-
-/*.modal.active {
-    visibility: visible;
-    opacity: 1;
-    transition-delay: 0s;
-}*/
-
 .modal-content {
-    background-color: #fefefe;
-    /* margin: 15% auto; Убираем старый margin */
-    margin: 20px; /* Небольшой отступ от краев */
+    background-color: rgba(255, 255, 255, 0.95); /* Почти непрозрачный белый фон */
+    margin: 20px;
     padding: 30px;
     border: 1px solid #888;
-    width: 90%; /* Ширина относительно родителя */
-    /* max-width: 500px; Убрали для .auth-modal ниже */
+    width: 90%;
     border-radius: 10px;
     position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    max-height: 90vh; /* Макс высота, чтобы помещалось */
-    overflow-y: auto; /* Добавляем скролл внутри контента, если не помещается */
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .close-button {
@@ -286,7 +302,7 @@ footer h4 {
 
 .modal h2 {
     text-align: center;
-    color: #2E7D32;
+    color: #4B0082;
     margin-bottom: 20px;
 }
 
@@ -302,13 +318,16 @@ footer h4 {
 
 /* Стили для кнопок Вход/Регистрация */
 .auth-buttons {
-    /* margin-left: auto; Отодвигаем вправо (альтернатива flexbox в header) */
+    /* margin-left: auto; */
 }
 
 .auth-btn {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
+    /* background-color: transparent; */
+    background: linear-gradient(to bottom right, #FF00FF, #00FFFF); /* Градиент Маджента -> Циан */
+    color: white; /* Белый текст */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Тень */
+    /* border: 1px solid white; */
+    border: none; /* Убираем рамку */
     padding: 8px 15px;
     border-radius: 20px;
     cursor: pointer;
@@ -318,8 +337,10 @@ footer h4 {
 }
 
 .auth-btn:hover {
-    background-color: white;
-    color: #2E7D32;
+    /* background-color: white; */
+    background: linear-gradient(to top left, #FF00FF, #00FFFF); /* Меняем направление градиента */
+    color: white; /* Оставляем белый */
+    /* color: #4B0082; */
 }
 
 /* Стили для модальных окон аутентификации */
@@ -356,9 +377,9 @@ footer h4 {
 }
 
 .form-group input:focus {
-    border-color: #2E7D32;
+    border-color: #9400D3;
     outline: none;
-    box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
+    box-shadow: 0 0 5px rgba(148, 0, 211, 0.3);
 }
 
 .form-group .error-message {
@@ -374,7 +395,7 @@ footer h4 {
 }
 
 .submit-btn {
-    background-color: #2E7D32;
+    background-color: #9400D3;
     color: white;
     padding: 12px 25px;
     border: none;
@@ -387,7 +408,7 @@ footer h4 {
 }
 
 .submit-btn:hover {
-    background-color: #1B5E20;
+    background-color: #4B0082;
 }
 
 .social-login {
@@ -438,33 +459,34 @@ html {
 /* Стили для секции Каталог */
 #catalog {
     padding: 40px 20px;
-    background-color: #e8f5e9; /* Очень светло-зеленый */
+    background: none; /* Убираем фон */
     text-align: center;
 }
 
 #catalog h2 {
-    color: #2E7D32; /* Темно-зеленый заголовок */
+    color: #4B0082;
     margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.4); /* Тень для читаемости */
 }
 
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Адаптивная сетка */
-    gap: 30px; /* Отступы между карточками */
-    max-width: 1200px; /* Ограничим макс. ширину сетки */
-    margin: 0 auto; /* Центрируем сетку */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .bike-card {
-    background-color: white;
-    border-radius: 15px; /* Более скругленные углы */
-    padding: 15px; /* Уменьшим паддинг */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Мягкая тень */
+    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый */
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     text-align: left;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex; /* Используем flex для структуры */
-    flex-direction: column; /* Элементы в столбец */
-    cursor: pointer; /* Показываем, что можно кликнуть */
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
 }
 
 .bike-card:hover {
@@ -472,15 +494,14 @@ html {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.bike-card img.bike-card-image { /* Уточняем селектор */
+.bike-card img.bike-card-image {
     max-width: 100%;
-    height: 180px; /* Задаем фиксированную высоту */
-    /* height: auto; Убираем */
+    height: 180px;
     border-radius: 5px;
     margin-bottom: 15px;
-    display: block; /* Убираем лишний отступ снизу */
-    object-fit: contain; /* Вписываем изображение */
-    object-position: center; /* Центрируем его */
+    display: block;
+    object-fit: contain;
+    object-position: center;
 }
 
 .bike-card-header {
@@ -488,36 +509,34 @@ html {
 }
 
 .bike-card h4 {
-    color: #333; /* Темнее */
+    color: #4B0082;
     margin: 0;
-    font-size: 1.2rem; /* Крупнее */
-    font-weight: 600; /* Полужирный */
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .bike-card p.bike-short-desc {
-    font-size: 0.9rem; /* Мельче */
+    font-size: 0.9rem;
     color: #666;
     line-height: 1.4;
     margin-bottom: 15px;
-    flex-grow: 1; /* Занимает доступное место, отодвигая кнопку вниз */
-    /* min-height: 4.2em; Убираем пока что */
+    flex-grow: 1;
 }
 
 .bike-card-rent-options {
     margin-bottom: 15px;
-    /* Стили для селектора выбора срока аренды будут здесь */
 }
 
 .bike-card p.price {
-    font-weight: 600; /* Полужирный */
+    font-weight: 600;
     color: #333;
-    font-size: 1rem; /* Обычный размер */
+    font-size: 1rem;
     margin-bottom: 0;
 }
 
-.want-bike-btn { /* Новый стиль для кнопки */
-    background-color: #fdd835; /* Ярко-желтый */
-    color: #333; /* Темный текст */
+.want-bike-btn {
+    background: linear-gradient(to bottom right, #FF00FF, #00FFFF);
+    color: #333;
     padding: 12px 20px;
     border: none;
     border-radius: 10px;
@@ -529,7 +548,7 @@ html {
 }
 
 .want-bike-btn:hover {
-    background-color: #fbc02d; /* Чуть темнее желтый */
+    background: linear-gradient(to top left, #FF00FF, #00FFFF);
 }
 
 .want-bike-btn:active {
@@ -555,22 +574,18 @@ html {
 }
 
 .features ul li strong {
-    color: #2E7D32;
-}
-
-.features ul li strong {
-    color: #2E7D32;
+    color: #4B0082;
 }
 
 /* Стили для модального окна деталей велосипеда */
 .bike-modal .modal-content {
-    max-width: 900px; /* Шире, чем окна аутентификации */
-    padding: 0; /* Убираем общий паддинг, т.к. разделим на секции */
-    overflow: hidden; /* Чтобы скругление работало */
+    max-width: 900px;
+    padding: 0;
+    overflow: hidden;
 }
 
 .bike-modal .close-button {
-    z-index: 10; /* Над другими элементами */
+    z-index: 10;
     color: #888;
     top: 15px;
     right: 25px;
@@ -579,29 +594,28 @@ html {
 
 .bike-modal-body {
     display: flex;
-    /* flex-wrap: wrap; */ /* Можно добавить для маленьких экранов */
 }
 
 .bike-modal-gallery {
-    flex: 1 1 55%; /* Занимает ~55% ширины */
-    background-color: #f8f8f8; /* Фон для картинки */
+    flex: 1 1 55%;
+    background-color: #f8f8f8;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    position: relative; /* Для позиционирования кнопок */
+    position: relative;
 }
 
 .bike-modal-gallery img {
     max-width: 100%;
-    max-height: 450px; /* Ограничим высоту */
+    max-height: 450px;
     height: auto;
     display: block;
     color: #333;
 }
 
 .bike-modal-info {
-    flex: 1 1 45%; /* Занимает ~45% ширины */
+    flex: 1 1 45%;
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -659,7 +673,6 @@ html {
 
 .pricing-options {
     margin-bottom: 25px;
-    /* Стили для отображения цен */
 }
 
 .pricing-options p {
@@ -668,12 +681,12 @@ html {
 }
 
 .bike-modal-info .want-bike-btn {
-    margin-top: auto; /* Прижимаем кнопку к низу */
+    margin-top: auto;
 }
 
 .rent-duration-options {
     display: flex;
-    gap: 15px; /* Отступ между опциями */
+    gap: 15px;
     margin-bottom: 15px;
     flex-wrap: wrap;
 }
@@ -689,13 +702,13 @@ html {
 }
 
 .rent-duration-options input[type="radio"] {
-    display: none; /* Скрываем стандартный радио-баттон */
+    display: none;
 }
 
 .rent-duration-options input[type="radio"]:checked + label {
-    background-color: #e8f5e9; /* Светло-зеленый фон выбранного */
-    border-color: #2E7D32; /* Зеленая рамка */
-    color: #2E7D32; /* Зеленый текст */
+    background: linear-gradient(to bottom right, #fde0ff, #e0fcff);
+    border-color: #9400D3;
+    color: #4B0082;
     font-weight: 600;
 }
 
@@ -711,7 +724,7 @@ html {
 }
 
 .modal-price-display strong {
-    color: #2E7D32; /* Зеленый для цены */
+    color: #4B0082;
     font-size: 1.3rem;
 }
 
@@ -720,7 +733,7 @@ html {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон */
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
     border: none;
     padding: 10px;
@@ -752,17 +765,17 @@ html {
 /* Стили для точек карусели */
 .carousel-dots {
     position: absolute;
-    bottom: 15px; /* Отступ снизу */
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 8px; /* Расстояние между точками */
+    gap: 8px;
 }
 
 .dot {
     width: 10px;
     height: 10px;
-    background-color: rgba(0, 0, 0, 0.3); /* Полупрозрачный серый */
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -773,14 +786,14 @@ html {
 }
 
 .dot.active {
-    background-color: #fdd835; /* Желтый цвет активной точки */
+    background-color: #00FFFF;
 }
 
 /* Стили для пасхалки */
 .easter-egg-container {
-    display: flex; /* По умолчанию none, но если покажем, то flex */
+    display: flex;
     align-items: center;
-    margin-left: 20px; /* Отступ от заголовка */
+    margin-left: 20px;
 }
 
 #easter-input {
@@ -793,7 +806,7 @@ html {
 
 #easter-btn {
     padding: 5px 15px;
-    background-color: #fdd835; /* Желтый */
+    background: linear-gradient(to bottom right, #FF00FF, #00FFFF);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -803,14 +816,14 @@ html {
 }
 
 #easter-btn:hover {
-    background-color: #fbc02d;
+    background: linear-gradient(to top left, #FF00FF, #00FFFF);
 }
 
 /* Стили для модального окна с видео */
 .video-modal-content {
-    background-color: black; /* Черный фон для видео */
+    background-color: black;
     padding: 10px;
-    max-width: 800px; /* Ограничим ширину */
+    max-width: 800px;
     width: 90%;
     border: none;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -828,6 +841,6 @@ html {
 }
 
 #easter-video {
-    display: block; /* Убираем лишние отступы */
-    max-height: 80vh; /* Ограничиваем высоту видео */
+    display: block;
+    max-height: 80vh;
 } 
