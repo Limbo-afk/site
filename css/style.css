@@ -383,6 +383,9 @@ footer {
     padding: 40px 20px;
     text-align: center;
     background: none; /* Убираем фон */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Еле заметный белый контур */
+    border-radius: 10px; /* Скругляем углы */
+    margin: 40px 20px; /* Добавим внешние отступы, чтобы контур был виден */
 }
 
 #map-section h2 {
@@ -1104,79 +1107,262 @@ html {
 
 /* --- Стили для страницы профиля (profile.html) --- */
 .profile-container {
-    max-width: 800px; /* Или другая ширина, как у других секций */
-    margin: 40px auto; /* Центрирование и отступы сверху/снизу */
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.05); /* Слегка заметный фон */
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    text-align: center; /* Центрируем заголовок и кнопку */
+    max-width: 1200px; /* Или другая ширина по желанию */
+    margin: 2rem auto;
+    padding: 2rem;
+    /* background-color: #fff; */ /* Убираем белый фон */
+    background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный темный фон */
+    border-radius: 15px; /* Возвращаем большее скругление */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Тонкая светлая рамка */
 }
 
-.profile-container h1 {
-    margin-bottom: 30px;
-    color: #e0e0e0; /* Светлый цвет для заголовка */
-    /* Можно использовать градиент, как у других заголовков, если есть класс */
+.profile-layout {
+    display: flex;
+    gap: 3rem; /* Отступ между колонками */
+    align-items: flex-start; /* Выравниваем колонки по верху */
 }
 
-.profile-info {
-    background-color: rgba(0, 0, 0, 0.1); /* Фон потемнее для блока данных */
-    padding: 25px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    text-align: left; /* Выравниваем текст данных по левому краю */
+.profile-display-column,
+.profile-edit-column {
+    flex: 1; /* Занимают равное пространство */
+    min-width: 0; /* Предотвращает переполнение flex-элементов */
 }
 
-.profile-info h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    text-align: center; /* Заголовок блока данных по центру */
-    color: #f0f0f0; /* Оставляем светлым заголовок внутри темного блока */
+.profile-display-column h2,
+.profile-edit-column h2 {
+    margin-top: 0; /* Убираем верхний отступ у заголовков колонок */
+    margin-bottom: 1.5rem;
+    /* color: #333; */
+    color: #e0e0e0; /* Светлый цвет заголовка */
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Светлый разделитель */
+    padding-bottom: 0.5rem;
 }
 
-.profile-info p {
-    margin-bottom: 15px;
-    font-size: 1.1em;
-    color: #fff; /* Белая метка (strong) будет на темном фоне */
-    display: flex; /* Используем flex для лучшего выравнивания */
-    justify-content: space-between; /* Разносим метку и значение */
-    flex-wrap: wrap; /* Перенос на новую строку, если не влезает */
+/* Стилизация "полей" для отображения */
+.display-field {
+    display: block; /* Чтобы занимало всю ширину */
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px; /* Небольшой отступ от лейбла */
+    /* background-color: #f8f9fa; */ /* Убираем светло-серый фон */
+    background-color: rgba(255, 255, 255, 0.05); /* Очень легкий светлый фон */
+    /* border: 1px solid #ced4da; */ /* Убираем темную границу */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Светлая граница */
+    border-radius: 4px;
+    min-height: 38px; /* Чтобы высота совпадала с инпутом */
+    box-sizing: border-box;
+    /* color: #495057; */ /* Убираем темный цвет текста */
+    color: #e0e0e0; /* Светлый цвет текста */
+    font-size: 1rem;
+    line-height: 1.5; /* Выравнивание текста */
 }
 
-.profile-info p strong {
-    color: #fff; /* Белый цвет для меток (Имя:, Email:) */
-    margin-right: 10px; /* Небольшой отступ справа */
-    flex-shrink: 0; /* Не сжимать метку */
+/* Общие стили для групп форм (если не заданы глобально) */
+.form-group.profile-form-group {
+    margin-bottom: 1.5rem;
 }
 
-.profile-info p span {
-    color: #e0e0e0; /* Делаем сами данные посветлее, почти белыми */
-    word-break: break-word; /* Перенос длинных строк (email) */
+.form-group.profile-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    /* color: #555; */
+    color: #ccc; /* Светло-серый цвет для лейблов */
 }
 
-/* Скрываем телефон, пока не используется */
-/* #profile-phone { display: none; } */ 
-/* Или всю строку с телефоном */
-#profile-phone {
-    /* visibility: hidden; */ /* Скрывает, но оставляет место */
-    /* Лучше пока просто оставить как есть или удалить из HTML */
+/* Стили для строки с именем/фамилией (если нужно) */
+.profile-form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem; /* Отступ как у других групп */
 }
 
+.profile-form-row .form-group {
+    flex: 1;
+    margin-bottom: 0; /* Убираем нижний отступ у групп внутри строки */
+}
+
+/* Стили предупреждения */
+.profile-warning {
+    /* background-color: #fff3cd; */
+    background-color: rgba(255, 230, 150, 0.15); /* Светло-желтый полупрозрачный */
+    /* border: 1px solid #ffeeba; */
+    border: 1px solid rgba(255, 210, 80, 0.4); /* Желтоватая рамка */
+    /* color: #856404; */
+    color: #f0e0b0; /* Светло-желтый текст */
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.profile-warning .icon {
+    font-size: 1.5rem;
+    color: #FFD700; /* Ярко-желтая иконка */
+}
+.profile-warning strong {
+    color: #fff; /* Белый акцентный текст */
+}
+
+/* Стили полей ввода в форме редактирования */
+.profile-edit-column input[type="text"],
+.profile-edit-column input[type="email"] {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff; /* Белый текст в полях ввода */
+    padding: 10px 12px;
+}
+
+.profile-edit-column input:focus {
+    border-color: #a020f0; /* Фиолетовый при фокусе */
+    box-shadow: 0 0 8px rgba(160, 32, 240, 0.4);
+    background-color: rgba(255, 255, 255, 0.1); /* Чуть светлее фон при фокусе */
+}
+
+/* Стили для радио кнопок */
+.radio-group label {
+    display: inline-flex; 
+    align-items: center;
+    margin-right: 25px;
+    cursor: pointer;
+    color: #ccc; /* Цвет текста радиокнопок */
+}
+.radio-group input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #a020f0; /* Фиолетовый цвет */
+    cursor: pointer;
+}
+
+/* Стили для группы чекбоксов */
+.checkbox-group {
+    margin-top: 1.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    color: #ccc; /* Цвет текста чекбоксов */
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: 16px; 
+    height: 16px;
+    accent-color: #a020f0; /* Фиолетовый цвет */
+    cursor: pointer;
+}
+
+.checkbox-label span a {
+    /* color: var(--primary-color); */ /* Убираем переменную, если она синяя */
+    color: #c080ff; /* Светло-фиолетовый для ссылок */
+    text-decoration: underline;
+}
+.checkbox-label span a:hover {
+    color: #e0a0ff;
+}
+
+.checkbox-label.required span::after { 
+    content: ' *';
+    color: #ff8080; /* Светло-красная звездочка */
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+/* Стили сообщений об ошибках */
+.profile-edit-column .form-group .error-message {
+    color: #ff8080; /* Светло-красный */
+    /* Остальные стили из form-group .error-message, если они глобальные */
+}
+
+.profile-edit-column .form-group input.invalid {
+    border-color: #ff8080 !important; /* Важно, чтобы перебить :focus */
+    background-color: rgba(255, 128, 128, 0.1); /* Легкий красный фон */
+}
+
+
+/* Стили кнопок */
 .profile-actions {
-    /* Сюда можно добавить стили, если будут другие кнопки */
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start; /* Кнопки слева */
 }
 
-.logout-btn {
-    /* Используем существующий стиль .auth-btn, но можно переопределить */
-    background: linear-gradient(45deg, #ff6b6b, #ee5253); /* Например, красный градиент для выхода */
+.profile-btn {
+    padding: 12px 25px; /* Немного увеличим */
     border: none;
-    padding: 12px 25px;
+    border-radius: 25px; /* Скруглим */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600; /* Жирнее */
+    transition: background 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
-.logout-btn:hover {
-    background: linear-gradient(45deg, #ee5253, #ff6b6b);
-    box-shadow: 0 0 15px #ff6b6b;
+.profile-btn:active {
+    transform: scale(0.98);
 }
+
+.save-btn {
+    /* background-color: var(--primary-color, #007bff); */
+    background: linear-gradient(to bottom right, #a020f0, #c080ff); /* Фиолетовый градиент */
+    color: white;
+}
+
+.save-btn:hover {
+    /* background-color: var(--primary-dark-color, #0056b3); */
+    background: linear-gradient(to top left, #a020f0, #c080ff); /* Фиолетовый градиент */
+    box-shadow: 0 0 10px rgba(160, 32, 240, 0.5);
+}
+
+.delete-btn {
+    /* background-color: #dc3545; */ 
+    background: linear-gradient(to bottom right, #e74c3c, #ff6b6b); /* Красный градиент */
+    color: white;
+}
+
+.delete-btn:hover {
+    /* background-color: #c82333; */
+    background: linear-gradient(to top left, #e74c3c, #ff6b6b); /* Красный градиент */
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
+/* Адаптивность (пример) */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    .profile-layout {
+        flex-direction: column; /* Колонки друг под другом на маленьких экранах */
+        gap: 2rem;
+    }
+
+    .profile-form-row {
+        flex-direction: column; /* Поля имени/фамилии тоже друг под другом */
+        gap: 1.5rem; /* Отступ между ними */
+        margin-bottom: 0; /* Убираем общий нижний отступ строки */
+    }
+     .profile-form-row .form-group {
+         margin-bottom: 1.5rem; /* Возвращаем отступ для полей в колонке */
+     }
+
+    .profile-actions {
+        flex-direction: column; /* Кнопки тоже в столбик */
+        align-items: stretch; /* Растягиваем кнопки по ширине */
+    }
+    .profile-btn {
+        padding: 15px 20px; /* Кнопки выше на мобильных */
+    }
+}
+
+/* --- Конец стилей для страницы профиля --- */
 
 /* Стили для контейнера профиля (иконка + меню) */
 /* Мы задали position: relative через JS, но можно и здесь */
@@ -1253,8 +1439,6 @@ html {
 }
 
 /* --- Конец стилей для выпадающего меню --- */
-
-/* --- Конец стилей для страницы профиля --- */ 
 
 /* Стили для кнопки аренды в балуне карты */
 .rent-button {
@@ -1383,14 +1567,15 @@ html {
 /* Стили для секции FAQ */
 #faq {
     padding: 40px 20px;
-    margin: 0; /* Убираем margin, чтобы прилегала */
+    /* margin: 0; */ /* Убираем старый margin */
     /* Убираем фон, рамку, тень */
     background: transparent !important; 
-    /* background-color: rgba(255, 255, 255, 0.9); */
-    border-radius: 0 !important;
+    border-radius: 10px !important; /* Добавляем скругление */
     box-shadow: none !important;
     position: relative; /* Добавляем для позиционирования дочерних элементов */
     overflow: hidden; /* Скрываем части картинок, выходящие за пределы секции */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Добавляем контур */
+    margin: 40px 20px; /* Добавляем внешние отступы */
 }
 
 #faq h2 {
@@ -1486,3 +1671,30 @@ html {
 }
 
 /* --- Конец стилей для декоративных картинок --- */ 
+
+/* Инвертируем цвета иконки профиля для контраста с хедером */
+#profile-icon-trigger img {
+    filter: invert(1);
+}
+
+.auth-btn {
+    /* background-color: transparent; */
+    background: linear-gradient(to bottom right, #FF00FF, #00FFFF); /* Градиент Маджента -> Циан */
+    color: white; /* Белый текст */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Тень */
+    /* border: 1px solid white; */
+    border: none; /* Убираем рамку */
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.auth-btn:hover {
+    /* background-color: white; */
+    background: linear-gradient(to top left, #FF00FF, #00FFFF); /* Меняем направление градиента */
+    color: white; /* Оставляем белый */
+    /* color: #4B0082; */
+} 

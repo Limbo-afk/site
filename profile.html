@@ -5,51 +5,166 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет - Велопрокат</title>
     <link rel="stylesheet" href="css/style.css"> 
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <!-- Стили можно будет дополнить, если понадобится -->
 </head>
 <body>
     <header>
+        <!-- Заменяем H1 на ссылку с картинкой -->
+        <a href="index.html#hero" class="site-logo"> <!-- Ссылка на главную -->
+            <img src="img/logo.png" alt="Логотип Велопрокат Крути Педали" class="logo-image">
+        </a>
+        <!-- Пасхалка (если нужна и здесь) -->
+        <!-- <div id="easter-egg" style="display: none;" class="easter-egg-container"> ... </div> -->
         <nav>
-            <!-- Удаляем весь div logo -->
-            <!-- <div class="logo">
-                <span>ВелоСтарт</span>
-            </div> -->
-            <ul class="nav-links">
-                <li><a href="index.html#home">Главная</a></li>
+            <ul>
+                <li><a href="index.html#hero">Главная</a></li>
                 <li><a href="index.html#catalog">Каталог</a></li>
-                <li><a href="index.html#why-us">Почему мы?</a></li>
-                <li><a href="index.html#how-it-works">Как это работает</a></li>
+                <li><a href="index.html#map-section">Карта точек</a></li>
+                <li><a href="index.html#faq">Вопросы и ответы</a></li>
                 <li><a href="index.html#contacts">Контакты</a></li>
             </ul>
-            <!-- Кнопки входа/выхода здесь не нужны, т.к. мы уже в профиле -->
         </nav>
+        <div id="auth-buttons" class="auth-buttons">
+            <!-- Сюда JS добавит иконку профиля или кнопки входа -->
+        </div>
     </header>
 
     <main class="profile-container">
-        <h1>Личный кабинет</h1>
-        
-        <div class="profile-info">
-            <h2>Ваши данные</h2>
-            <p><strong>Имя:</strong> <span id="profile-fname">Загрузка...</span></p>
-            <p><strong>Фамилия:</strong> <span id="profile-lname">Загрузка...</span></p>
-            <p><strong>Email:</strong> <span id="profile-email">Загрузка...</span></p>
-            <p><strong>Телефон:</strong> <span id="profile-phone">Загрузка...</span></p> 
-            <!-- Телефон пока отображать не будем, но ID оставим на будущее -->
-        </div>
+        <div class="profile-layout"> <!-- Новый контейнер для колонок -->
 
-        <div class="profile-actions">
-            <!-- Сюда можно будет добавить кнопки редактирования -->
-            <button id="logout-button" class="auth-btn logout-btn">Выйти</button> 
+            <!-- Левая колонка: Отображение данных -->
+            <div class="profile-display-column">
+                <h2>Текущие данные</h2>
+                <div class="form-group profile-form-group">
+                    <label>Фамилия</label>
+                    <div class="display-field" id="current-lname">...</div>
+                </div>
+                <div class="form-group profile-form-group">
+                    <label>Имя</label>
+                    <div class="display-field" id="current-fname">...</div>
+                </div>
+                <div class="form-group profile-form-group">
+                    <label>Отчество</label>
+                    <div class="display-field" id="current-patronymic">...</div> <!-- Добавили отчество -->
+                </div>
+                <div class="form-group profile-form-group">
+                    <label>Электронная почта</label>
+                    <div class="display-field" id="current-email">...</div>
+                </div>
+                 <div class="form-group profile-form-group">
+                    <label>Удобный способ связи</label>
+                    <div class="display-field" id="current-contact-method">...</div> <!-- Добавили способ связи -->
+                </div>
+            </div>
+
+            <!-- Правая колонка: Форма редактирования -->
+            <div class="profile-edit-column">
+                <h2>Персональные данные</h2> <!-- Переносим H1 сюда как H2 -->
+                
+                <div class="profile-warning">
+                    <span class="icon">⚠️</span>
+                    <div>
+                        <strong>Указывай реальные данные.</strong><br>
+                        При передаче девайса необходимо предъявить паспорт
+                    </div>
+                </div>
+
+                <form id="profile-form">
+                    <div class="profile-form-row">
+                        <div class="form-group profile-form-group">
+                            <label for="profile-lname">Фамилия</label>
+                            <input type="text" id="profile-lname" name="lname" required>
+                            <small class="error-message">Это поле обязательно</small>
+                        </div>
+                        <div class="form-group profile-form-group">
+                            <label for="profile-fname">Имя</label>
+                            <input type="text" id="profile-fname" name="fname" required>
+                            <small class="error-message">Это поле обязательно</small>
+                        </div>
+                    </div>
+                     <div class="form-group profile-form-group">
+                        <label for="profile-patronymic">Отчество</label>
+                        <input type="text" id="profile-patronymic" name="patronymic">
+                        <small class="error-message"></small>
+                    </div>
+                    <div class="form-group profile-form-group">
+                        <label for="profile-email">Электронная почта</label>
+                        <input type="email" id="profile-email" name="email" required>
+                        <small class="error-message">Это поле обязательно</small>
+                    </div>
+
+                    <div class="form-group profile-form-group">
+                        <label>Удобный способ связи</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="contact-method" value="phone" checked> Телефон</label>
+                            <label><input type="radio" name="contact-method" value="whatsapp"> WhatsApp</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group profile-form-group checkbox-group">
+                         <label class="checkbox-label required">
+                            <input type="checkbox" id="privacy-policy" name="privacy-policy" required>
+                            <span>Я ознакомился с <a href="#" target="_blank">Политикой Конфиденциальности</a></span>
+                         </label>
+                         <label class="checkbox-label required">
+                            <input type="checkbox" id="data-processing" name="data-processing" required>
+                             <span>Я даю <a href="#" target="_blank">Согласие на обработку персональных данных</a></span>
+                         </label>
+                         <label class="checkbox-label">
+                            <input type="checkbox" id="marketing-consent" name="marketing-consent">
+                            <span>Я хочу получать информационные и рекламные уведомления</span>
+                         </label>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button type="submit" id="save-profile-button" class="profile-btn save-btn">Сохранить изменения</button>
+                        <button type="button" id="delete-profile-button" class="profile-btn delete-btn">Удалить персональные данные</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
-        
     </main>
 
-    <footer>
-        <p>&copy; 2024 ВелоСтарт. Все права защищены.</p>
-        <div class="contacts">
-            <p>Телефон: <a href="tel:+70000000000">+7 (000) 000-00-00</a></p>
-            <p>Email: <a href="mailto:info@velostart.ru">info@velostart.ru</a></p>
+    <footer id="contacts">
+        <div class="footer-container">
+            <!-- Колонка 1: Лого, Соцсети, Юр. Инфо -->
+            <div class="footer-column footer-column-left">
+                <a href="#" class="footer-logo">
+                    <img src="img/logo.png" alt="Логотип Велопрокат" class="footer-logo-image">
+                </a>
+                <div class="social-icons">
+                    <!-- ЗАМЕНИТЬ НА РЕАЛЬНЫЕ ССЫЛКИ И ИКОНКИ -->
+                    <a href="#" class="social-icon vk" title="ВКонтакте"><img src="img/vk_3991720.png" alt="VK"></a> 
+                    <a href="https://t.me/LadnoBydetTakoe" target="_blank" class="social-icon tg" title="Telegram"><img src="img/telegram_3670044.png" alt="Telegram"></a>
+                    <a href="#" class="social-icon wa" title="WhatsApp"><img src="img/social_10110401.png" alt="WhatsApp"></a>
+                </div>
+                <div class="legal-info">
+                    <p>ООО "Крути Педали"</p>
+                    <p>ИНН: 1234567890 ОГРН: 1234567890123</p>
+                </div>
+            </div>
+
+            <!-- Колонка 2: Контакты -->
+            <div class="footer-column footer-column-center">
+                <h4>Контакты</h4>
+                <p>Email: <a href="mailto:semeon1009@gmail.com">semeon1009@gmail.com</a></p>
+                <p>Телефон: <a href="tel:+79277004546">+7 (927) 700-45-46</a></p>
+                <p>Адрес: г. Самара, ул. Примерная, д. 1</p> 
+                <p>График: Ежедневно 10:00 - 20:00</p> 
+            </div>
+
+            <!-- Колонка 3: Документы -->
+            <div class="footer-column footer-column-right">
+                <a href="#" class="footer-link">Договор на использование сервиса</a>
+                <a href="#" class="footer-link">Политика конфиденциальности</a>
+                 <p class="copyright">&copy; 2024 Велопрокат "Крути Педали"</p>
+           </div>
+        </div>
+        <!-- Добавляем строку обратно -->
+        <div class="copyright" style="text-align: center; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+            Сделано с ❤️ в Самаре
         </div>
     </footer>
 

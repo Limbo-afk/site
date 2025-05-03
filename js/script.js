@@ -236,7 +236,7 @@ async function updateAuthStateUI() { // Делаем функцию асинхр
         profileTrigger.id = 'profile-icon-trigger'; // ID для стилей/логики
         
         const profileIcon = document.createElement('img');
-        profileIcon.src = 'profile.0ba66c2.svg'; 
+        profileIcon.src = 'img/profile.png'; /* Меняем иконку SVG на PNG */ 
         profileIcon.alt = 'Профиль';
         profileIcon.style.width = '30px'; 
         profileIcon.style.height = '30px';

@@ -209,6 +209,80 @@ app.get('/api/profile', authenticateToken, (req, res) => {
     res.json({ success: true, userData: req.user }); 
 });
 
+// --- ОБНОВЛЕНИЕ ПРОФИЛЯ ПОЛЬЗОВАТЕЛЯ ---
+app.put('/api/profile/update', authenticateToken, async (req, res) => {
+    const userId = req.user.id; // ID пользователя из токена
+    const { fname, lname, patronymic, email, contactMethod } = req.body;
+
+    console.log(`--- Получен запрос на обновление профиля для пользователя ID: ${userId} ---`);
+    console.log('Данные для обновления:', req.body);
+
+    // --- Валидация (упрощенная) ---
+    if (!fname || !lname || !email) {
+        return res.status(400).json({ success: false, message: 'Имя, фамилия и email обязательны.' });
+    }
+    // Тут можно добавить более сложную валидацию (email, и т.д.)
+
+    try {
+        // Формируем SQL-запрос
+        // Обновляем только существующие поля: first_name, last_name, email
+        const updateUserQuery = `
+            UPDATE users 
+            SET 
+                first_name = $1, 
+                last_name = $2, 
+                email = $3
+                -- patronymic = $X, 
+                -- contact_method = $Y,
+                -- updated_at = CURRENT_TIMESTAMP
+            WHERE id = $4
+            RETURNING id, email, first_name, last_name; -- Возвращаем только обновленные существующие поля
+        `;
+        
+        const values = [
+            fname,
+            lname,
+            email,
+            // patronymic || null, 
+            // contactMethod || null, 
+            userId
+        ];
+
+        console.log('Выполнение UPDATE запроса к БД...');
+        const result = await pool.query(updateUserQuery, values);
+
+        if (result.rowCount === 0) {
+            console.error(`Не удалось найти пользователя с ID ${userId} для обновления.`);
+            return res.status(404).json({ success: false, message: 'Пользователь не найден.' });
+        }
+
+        console.log('Профиль успешно обновлен для пользователя ID:', userId);
+        res.status(200).json({
+            success: true,
+            message: 'Данные профиля успешно обновлены!',
+            updatedUser: { // Возвращаем только реально обновленные данные
+                id: result.rows[0].id,
+                email: result.rows[0].email,
+                firstName: result.rows[0].first_name,
+                lastName: result.rows[0].last_name
+                // patronymic: result.rows[0].patronymic,
+                // contactMethod: result.rows[0].contact_method
+            }
+        });
+
+    } catch (error) {
+        console.error(`--- ОШИБКА ПРИ ОБНОВЛЕНИИ ПРОФИЛЯ ID ${userId} ---`);
+        console.error('Ошибка:', error);
+
+        // Проверка на дубликат email (если email уникальный в БД)
+        if (error.code === '23505' && error.constraint && error.constraint.includes('email')) {
+            return res.status(400).json({ success: false, message: 'Этот email уже используется другим пользователем.' });
+        }
+
+        res.status(500).json({ success: false, message: 'Ошибка сервера при обновлении профиля.' });
+    }
+});
+
 // --- Запуск сервера ---
 app.listen(port, () => {
     console.log(`Сервер запущен на порту ${port}`);
