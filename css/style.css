@@ -17,31 +17,35 @@ body {
 }
 
 header {
-    /* Делаем фон прозрачным */
-    background: transparent;
-    /* Убираем свойства анимации отсюда, т.к. будет виден фон body */
-    /* background-size: 400% 400%; */
-    /* animation: gradientAnimation 15s ease infinite; */ 
-    color: #333; /* Оставляем темный текст */
+    background: black; /* Оставляем хедер черным */
+    color: white; /* Основной цвет текста в хедере - белый */
     padding: 1rem 20px;
     text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Добавим небольшой нижний border для визуального отделения, если фон сольется */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    border-bottom: 1px solid #333; /* Темная граница */
 }
 
-header h1.site-title {
-    margin: 0;
-    text-align: left;
-    color: #333; /* Темный цвет */
-    /* text-shadow: 1px 1px 2px rgba(255,255,255,0.5); */ /* Убираем тень */
-    /* Добавляем фон и скругление */
-    background-color: rgba(255, 255, 255, 0.25); /* Чуть менее прозрачный фон */
-    padding: 10px 20px;
-    border-radius: 30px; 
+/* Убираем/изменяем стили для старого текстового заголовка */
+/* header h1.site-title { ... } */
+
+/* Новые стили для контейнера логотипа (ссылки) */
+a.site-logo {
     display: inline-block; 
+    /* background-color: rgba(255, 255, 255, 0.25); */ /* Убираем фон */
+    padding: 0; /* Убираем паддинг */
+    /* border-radius: 30px; */ /* Убираем скругление */
+    line-height: 0; 
+}
+
+/* Стили для самого изображения логотипа */
+.logo-image {
+    height: 60px; /* Увеличиваем высоту логотипа */
+    width: auto; 
+    vertical-align: middle; 
+    /* Попробуем чуть увеличить яркость, чтобы черный логотипа стал ближе к фону */
+    filter: brightness(1.1); /* Значение > 1 делает светлее, < 1 темнее */
 }
 
 nav {
@@ -59,21 +63,21 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #333; /* Темный цвет */
-    /* text-shadow: 1px 1px 2px rgba(0,0,0,0.3); */ /* Убираем тень */
-    text-decoration: none;
-    /* Слегка меняем градиент кнопок для читаемости темного текста */
-    background: linear-gradient(to bottom right, #a0f0ff, #e0c0ff);
+    color: white; /* Белый цвет текста */
+    /* Меняем градиент на такой же, как у .auth-btn */
+    background: linear-gradient(to bottom right, #FF00FF, #00FFFF);
     padding: 10px 18px;
     border-radius: 25px;
-    transition: background 0.5s ease, transform 0.2s ease;
+    transition: background 0.5s ease;
     display: inline-block;
-    border: none;
+    border: none; 
+    text-decoration: none; 
 }
 
 nav ul li a:hover {
-    background: linear-gradient(to top left, #a0f0ff, #e0c0ff);
-    transform: translateY(-2px);
+    /* Меняем направление градиента при наведении */
+    background: linear-gradient(to top left, #FF00FF, #00FFFF);
+    color: white; 
 }
 
 /* ВОЗВРАЩАЕМ Анимацию для кнопки */
@@ -91,15 +95,13 @@ nav ul li a:hover {
 
 /* Стили для кнопки Каталог (ОСТАВЛЯЕМ ТОЛЬКО АНИМАЦИЮ) */
 #catalog-link {
-    /* Стили фона, текста, рамки теперь общие для nav ul li a */
-    animation: pulse 2s infinite;
-    position: relative; /* Для корректной работы box-shadow */
-    z-index: 1; /* Чтобы тень не перекрывалась другими кнопками */
+    /* animation: pulse 2s infinite; */
+    position: relative;
+    z-index: 1;
 }
 
 #catalog-link:hover {
-    /* Стиль ховера теперь общий */
-    animation-play-state: paused;
+    /* animation-play-state: paused; */
 }
 
 main {
@@ -107,84 +109,273 @@ main {
     font-size: 1.1rem;
 }
 
-.hero {
-    text-align: center;
-    background-color: #A5D6A7;
-    padding: 40px 20px;
+/* Стили для Hero Section */
+#hero {
+    padding: 80px 20px; 
+    /* Убираем фон и анимацию, делаем прозрачным */
+    background: transparent !important; 
+    /* background: linear-gradient(...); */ 
+    /* background-size: 400% 400%; */
+    /* animation: gradientAnimation 15s ease infinite; */ 
+    margin: 0 !important;
+    border-radius: 0 !important; 
+    box-shadow: none !important;
+    text-align: center; 
+    position: relative; 
+    overflow: hidden; 
 }
 
-.hero h2 {
-    margin-top: 0;
+.hero-content {
+    max-width: 800px; 
+    margin: 0 auto; 
+    position: relative; /* Чтобы текст был поверх облаков */
+    z-index: 2; /* Выше облаков */
 }
 
-.hero button {
-    background-color: #FF9800;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
+.hero-text {
+    /* flex: 1; */ /* Убираем */
+    color: white; /* Белый текст */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Тень для читаемости */
 }
 
-.features {
-    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый */
-    padding: 30px 20px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    color: #333;
-}
-
-.features h3 {
-    text-align: center;
-    color: #4B0082;
-    margin-bottom: 20px;
-}
-
-.features ul {
-    list-style: none;
-    padding: 0;
-    text-align: center;
-}
-
-.features ul li {
+.hero-text h1 {
+    font-size: 3.2rem; 
+    font-weight: 700;
+    line-height: 1.2;
     margin-bottom: 15px;
-    font-size: 1.1rem;
-    text-align: left;
-    line-height: 1.6;
+    color: white; 
+    position: relative; /* Для позиционирования короны */
+    display: inline-block; /* Чтобы не растягивался на всю ширину */
 }
 
-.features ul li strong {
-    color: #4B0082;
+/* Стили для короны */
+.hero-crown {
+    position: absolute;
+    width: 110px; /* Финальный размер */
+    height: auto;
+    top: 25px; /* Чуть выше */
+    right: 50px; /* Оставляем тут */
+    transform: rotate(15deg); 
+    z-index: 3; 
+}
+
+.hero-text p {
+    font-size: 1.3rem; 
+    color: rgba(255, 255, 255, 0.9); 
+    margin-bottom: 30px;
+}
+
+.hero-cta {
+    display: inline-block;
+    /* Применяем градиент как у кнопок навигации */
+    background: linear-gradient(to bottom right, #FF00FF, #00FFFF);
+    color: white; /* Белый текст */
+    /* background-color: #FFD700; */ /* Убираем желтый */
+    /* color: #333; */ /* Убираем темный текст */
+    padding: 15px 35px;
+    border-radius: 30px; 
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    transition: background 0.5s ease, transform 0.2s ease; /* Обновляем transition */
+}
+
+.hero-cta:hover {
+    /* Меняем направление градиента при наведении */
+    background: linear-gradient(to top left, #FF00FF, #00FFFF);
+    /* background-color: #FFC700; */ /* Убираем желтый ховер */
+    transform: scale(1.03);
+}
+
+/* Стили для облаков */
+.hero-cloud {
+    position: absolute;
+    z-index: 1; /* Ниже текста */
+    opacity: 0.6; /* Полупрозрачные */
+    pointer-events: none; /* Чтобы не мешали кликам */
+}
+
+/* Примерное позиционирование облаков */
+.cloud-1 {
+    width: 150px;
+    top: 15%;
+    left: 10%;
+    transform: scaleX(-1); /* Отразим для разнообразия */
+}
+.cloud-2 {
+    width: 100px;
+    top: 30%;
+    left: 25%;
+    opacity: 0.4;
+}
+.cloud-3 {
+    width: 180px;
+    top: 10%;
+    right: 12%;
+}
+.cloud-4 {
+    width: 120px;
+    top: 40%;
+    right: 20%;
+    transform: scaleX(-1);
+    opacity: 0.5;
+}
+.cloud-5 {
+    width: 90px;
+    bottom: 10%;
+    left: 5%;
+    opacity: 0.3;
+}
+
+/* Адаптивность для Hero Section - теперь только центрирование */
+@media (max-width: 768px) {
+    .hero-content {
+        /* flex-direction: column; */ /* Не нужно */
+        text-align: center; /* Уже задано выше */
+        /* gap: 30px; */
+    }
+    .hero-text h1 {
+        font-size: 2.5rem; /* Корректируем размер для мобильных */
+    }
+    .hero-text p {
+        font-size: 1.1rem;
+    }
+    /* .hero-image { ... } */ /* Удаляем */
 }
 
 footer {
-    text-align: center;
-    padding: 15px;
+    background: black; 
+    color: #ccc; 
+    border-top: 1px solid #333; 
+    padding: 40px 20px 20px 20px; /* Увеличиваем отступы */
+    text-align: left; /* Выравнивание по левому краю по умолчанию */
     margin-top: 0;
-    /* Делаем фон прозрачным */
-    background: transparent;
-    /* Убираем свойства анимации отсюда */
-    /* background-size: 400% 400%; */
-    /* animation: gradientAnimation 15s ease infinite; */
-    color: #333; /* Оставляем темный текст */
-    /* Добавим небольшой верхний border */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-footer a {
-    color: #000; /* Черный цвет для ссылок для лучшего контраста */
-    font-weight: 500;
+.footer-container {
+    display: flex;
+    flex-wrap: wrap; /* Разрешаем перенос колонок */
+    justify-content: space-between; /* Распределение колонок */
+    max-width: 1200px; /* Ограничиваем ширину */
+    margin: 0 auto; /* Центрируем контейнер */
+    gap: 30px; /* Пространство между колонками */
+}
+
+.footer-column {
+    flex: 1; /* Базовая ширина колонок */
+    min-width: 200px; /* Минимальная ширина до переноса */
+}
+
+.footer-column-left {
+    flex-basis: 25%; /* Левая колонка чуть шире */
+}
+.footer-column-center {
+    flex-basis: 35%; 
+}
+.footer-column-right {
+    flex-basis: 25%;
+    text-align: right; /* Правую колонку выравниваем вправо */
+}
+
+/* Стили логотипа в футере */
+.footer-logo-image {
+    height: 35px; /* Уменьшаем лого */
+    width: auto;
+    margin-bottom: 15px;
+}
+
+/* Стили иконок соцсетей */
+.social-icons {
+    margin-bottom: 20px;
+}
+
+.social-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background: linear-gradient(45deg, #FF00FF, #00FFFF); /* Градиент */
+    transition: transform 0.2s ease;
+    padding: 8px; /* Отступ для картинки внутри */
+    box-sizing: border-box; /* Чтобы паддинг не увеличивал размер */
+}
+
+.social-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* filter: invert(1) brightness(1.5); */ /* Можно попробовать сделать иконку белой, если она черная */
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Юридическая информация */
+.legal-info p {
+    font-size: 0.8rem;
+    color: #888; /* Серый цвет */
+    margin: 3px 0;
+    line-height: 1.3;
+}
+
+/* Стили для центральной колонки */
+.footer-column-center h4 {
+    color: white;
+    margin-bottom: 15px;
+}
+.footer-column-center p {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+.footer-column-center a {
+    color: #eee;
     text-decoration: none;
 }
-
-footer a:hover {
+.footer-column-center a:hover {
+    color: white;
     text-decoration: underline;
 }
 
-footer h4 {
-    margin-bottom: 15px;
-    color: #333; /* Темный цвет */
+/* Стили для правой колонки */
+.footer-link {
+    display: block; /* Ссылки друг под другом */
+    margin-bottom: 10px;
+    color: #eee;
+    text-decoration: none;
+}
+.footer-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+.copyright {
+    margin-top: 30px; /* Отступ для копирайта */
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+/* Адаптивность для футера */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column; /* Колонки друг под другом */
+        align-items: center; /* Центрируем колонки */
+        text-align: center; /* Центрируем текст внутри */
+    }
+    .footer-column {
+        min-width: 100%; /* Колонки занимают всю ширину */
+        margin-bottom: 20px;
+    }
+     .footer-column-right {
+        text-align: center; /* Текст в правой колонке тоже по центру */
+    }
+    .social-icons {
+        text-align: center; /* Иконки по центру */
+    }
+    .legal-info {
+         text-align: center;
+    }
 }
 
 /* Стили для секции с картой */
@@ -247,25 +438,9 @@ footer h4 {
 }
 
 /* Стили для секции "Как это работает" */
-.info-section {
-    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый */
-    padding: 30px 20px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.info-section h3 {
-    text-align: center;
-    color: #4B0082;
-    margin-bottom: 20px;
-}
-
-.info-section ol {
-    list-style-position: inside;
-    margin-left: 20px;
-    line-height: 1.6;
-}
+/* .info-section { ... } */
+/* .info-section h3 { ... } */
+/* .info-section ol { ... } */
 
 /* Стили для модального окна */
 .modal {
@@ -569,28 +744,6 @@ html {
 
 .want-bike-btn:active {
     transform: scale(0.98);
-}
-
-.features h3 {
-    text-align: center;
-    color: white;
-}
-
-.features ul {
-    list-style: none;
-    padding: 0;
-    text-align: center;
-}
-
-.features ul li {
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-    text-align: left;
-    line-height: 1.6;
-}
-
-.features ul li strong {
-    color: #4B0082;
 }
 
 /* Стили для модального окна деталей велосипеда */
@@ -1014,3 +1167,219 @@ html {
 /* --- Конец стилей для выпадающего меню --- */
 
 /* --- Конец стилей для страницы профиля --- */ 
+
+/* Стили для кнопки аренды в балуне карты */
+.rent-button {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-top: 10px; /* Небольшой отступ сверху */
+    border: none;
+    border-radius: 20px; /* Закругленные углы */
+    background: linear-gradient(45deg, #a020f0, #ff7f00, #ffff00); /* Градиент как у кнопок хедера */
+    background-size: 200% 200%; /* Для анимации */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-position 0.5s ease;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */ /* Убираем тень */
+}
+
+.rent-button:hover {
+    background-position: right center; /* Сдвиг градиента при наведении */
+    /* transform: scale(1.03); */ /* Убираем масштабирование */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); */ /* Убираем тень при наведении */
+}
+
+.rent-button:active {
+    transform: scale(0.98); /* Эффект нажатия */
+}
+
+/* Дополнительно: настраиваем стандартные стили балуна */
+
+/* Основной контейнер балуна - только скругление и тень */
+.ymaps-2-1-79-balloon {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+    /* Убираем background: none, пусть будет стандартный фон */
+    /* background: none !important; */ 
+}
+
+/* УДАЛЯЕМ ВСЕ СЛЕДУЮЩИЕ СПЕЦИФИЧНЫЕ СТИЛИ БАЛУНА */
+
+/* Layout балуна - убираем фон */
+/* .ymaps-2-1-79-balloon__layout { ... } */
+
+/* Контейнер содержимого балуна - убираем стили */
+/* .ymaps-2-1-79-balloon__content { ... } */
+
+/* Заголовок балуна - убираем стили */
+/* .ymaps-2-1-79-balloon__header { ... } */
+
+/* Кнопка закрытия - рисуем свой крестик через псевдо-элемент */
+.ymaps-2-1-79-balloon__close-button {
+    background: none !important;
+    opacity: 1 !important;
+    width: 30px !important; /* Фиксируем размер области */
+    height: 30px !important; /* Фиксируем размер области */
+    padding: 0 !important;
+    border-radius: 50% !important; /* Сделаем область круглой для клика */
+    top: 8px !important; 
+    right: 8px !important;
+    font-size: 0 !important; /* Скрываем оригинальный символ */
+    color: transparent !important; /* Скрываем оригинальный символ */
+    box-shadow: none !important;
+    border: none !important;
+    transition: background-color 0.2s ease !important; 
+    position: relative; /* Для позиционирования псевдо-элемента */
+    cursor: pointer;
+}
+
+.ymaps-2-1-79-balloon__close-button::before {
+    content: "\00D7"; /* Символ крестика (умножение) */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #4B0082 !important; /* Темно-фиолетовый цвет */
+    font-size: 26px !important; /* Размер крестика */
+    font-weight: bold !important; /* Жирный крестик */
+    line-height: 1 !important;
+    transition: color 0.2s ease;
+}
+
+.ymaps-2-1-79-balloon__close-button:hover {
+    /* background-color: rgba(0, 0, 0, 0.1) !important; */ /* Убираем легкий фон при наведении */
+    /* Убираем старые эффекты */
+    color: transparent !important;
+    background-position: initial !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.ymaps-2-1-79-balloon__close-button:hover::before {
+     color: #a020f0 !important; /* Более светлый фиолетовый при наведении */
+}
+
+/* Удаляем стили для заголовка балуна */
+.ymaps-2-1-79-balloon__tail {
+     display: none !important; /* Хвостик оставляем скрытым */
+}
+
+.features ul li strong {
+    /* ... */
+}
+
+/* Удаляем старые стили info-section */
+/* .info-section { ... } */
+/* .info-section h3 { ... } */
+/* .info-section ol { ... } */
+
+/* Стили для разделителя с горами */
+.mountain-separator {
+    width: 100%;
+    height: 100px; /* ЗАДАЙТЕ ВЫСОТУ КАРТИНКИ fone.png */
+    background-image: url('../img/fone.png');
+    background-repeat: repeat-x;
+    background-position: bottom center;
+    background-size: auto 100%; /* Масштабируем по высоте */
+    /* background-size: contain; */ /* Или можно так, если нужно вместить целиком */
+    margin-bottom: -1px; /* Может понадобиться для перекрытия зазора */
+    line-height: 0; /* Убираем возможную высоту строки */
+    font-size: 0;  /* Убираем возможную высоту шрифта */
+}
+
+/* Стили для секции FAQ */
+#faq {
+    padding: 40px 20px;
+    margin: 0; /* Убираем margin, чтобы прилегала */
+    /* Убираем фон, рамку, тень */
+    background: transparent !important; 
+    /* background-color: rgba(255, 255, 255, 0.9); */
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+#faq h2 {
+    text-align: center;
+    color: white; /* Белый заголовок */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Тень */
+    margin-bottom: 30px;
+}
+
+.faq-container {
+    max-width: 800px; 
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Светлый полупрозрачный разделитель */
+}
+.faq-item:last-child {
+    border-bottom: none; 
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 18px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9); /* Белый текст вопроса */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    transition: color 0.2s ease;
+}
+
+.faq-question:hover {
+    color: white; /* Ярко-белый при наведении */
+}
+
+.faq-icon {
+    font-size: 1.6rem;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    color: white; /* Белая иконка */
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    padding: 0 15px;
+    color: rgba(255, 255, 255, 0.85); /* Светлый текст ответа */
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.faq-answer p {
+    margin: 0;
+    padding-bottom: 18px; 
+}
+
+/* Стили для активного элемента */
+.faq-item.active .faq-question {
+    color: white; /* Оставляем белым */
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg); /* Превращаем + в x */
+}
+
+.faq-item.active .faq-answer {
+    max-height: 300px; 
+    padding: 0 15px; 
+    transition: max-height 0.5s ease-in, padding 0.5s ease-in;
+}
+
+/* Конец стилей FAQ */
+
+/* Стили для разделителя с горами */ 

@@ -12,52 +12,127 @@ function init() {
         controls: ['zoomControl', 'fullscreenControl']
     });
 
-    // Массив с данными о точках проката
-    const bikeStations = [
-        { 
-            coords: [53.1817, 50.1135], 
-            location: 'Железнодорожный вокзал Самары', 
-            name: 'Альфа' 
+    // Массив с данными о точках проката (переименован из bikeStations для ясности)
+    const rentalPointsData = [
+         {
+            coords: [53.1959, 50.1002], // Самара, Площадь Куйбышева (пример)
+            name: 'Точка 1: Площадь Куйбышева',
+            location: 'Площадь Куйбышева', // Добавим поле для единообразия
+            workHours: '08:00 - 22:00',
+            description: 'Классные велики!', // Добавим описание
+            id: 1 // Добавим ID для кнопки
         },
-        { 
-            coords: [53.2167, 50.1694], // Примерные координаты Фабрики-кухни (Третьяковки)
-            location: 'Государственная Третьяковская галерея, Третьяковка в Самаре', 
-            name: 'Бета' 
+        {
+            coords: [53.2037, 50.1605], // Самара, Набережная (пример)
+            name: 'Точка 2: Набережная',
+            location: 'Набережная реки Волга',
+            workHours: '09:00 - 21:00',
+            description: 'Самые новые модели!',
+            id: 2
         },
-        { 
-            coords: [53.2305, 50.1930], 
-            location: 'Парк культуры и отдыха имени Ю. А. Гагарина', 
-            name: 'Гамма' 
+        {
+            coords: [53.2128, 50.1898], // Самара, Загородный парк (пример)
+            name: 'Точка 3: Загородный парк',
+            location: 'Загородный парк',
+            workHours: '10:00 - 20:00',
+            description: 'Отличное место для старта!',
+            id: 3
         },
-        { 
-            coords: [53.2667, 50.2786], // Примерные координаты Парка Металлургов
-            location: 'Парк 50-летия Октября', 
-            name: 'Дельта' 
+        // --- Сюда можно добавить твои предыдущие точки или новые ---
+        {
+            coords: [53.1817, 50.1135],
+            location: 'Железнодорожный вокзал Самары',
+            name: 'Альфа', // Используем твои названия
+            workHours: '8:00 - 20:00', // Стандартные часы
+            description: 'Удобно начать поездку от вокзала.',
+            id: 4
         },
-        { 
-            coords: [53.212434, 50.248667], // Точные координаты от пользователя
-            location: 'Метро Безымянка', // Оставим пока это название
-            name: 'Эпсилон' 
-        }
+        {
+            coords: [53.2167, 50.1694],
+            location: 'Государственная Третьяковская галерея, Третьяковка в Самаре',
+            name: 'Бета',
+            workHours: '8:00 - 20:00',
+            description: 'Совмести велопрогулку с культурой.',
+            id: 5
+        },
+        // ... добавь остальные точки по аналогии
     ];
 
-    const workHours = '8:00 - 20:00';
-
     // Добавление меток (placemarks) на карту
-    bikeStations.forEach(station => {
-        const placemark = new ymaps.Placemark(station.coords, {
+    rentalPointsData.forEach(point => {
+        const placemark = new ymaps.Placemark(point.coords, {
             // Содержимое балуна (всплывающего окна)
-            balloonContentHeader: `Велопрокат "${station.name}"`, // Название точки в заголовке
-            balloonContentBody: 
-                `<strong>Место:</strong> ${station.location}<br>` + // Адрес/место
-                `<strong>График работы:</strong> ${workHours}`, // График работы
+            balloonContentHeader: `Велопрокат "${point.name}"`,
+            balloonContentBody:
+                `<strong>Место:</strong> ${point.location}<br>` +
+                `<strong>График работы:</strong> ${point.workHours}<br>` +
+                `${point.description || ''}<br>` + // Описание, если есть
+                `<button class="rent-button" data-point-id="${point.id}">Арендовать здесь</button>`, // Кнопка аренды
             // Содержимое хинта (при наведении)
-            hintContent: `Велопрокат "${station.name}"`
+            hintContent: `Велопрокат "${point.name}"`
         }, {
-            preset: 'islands#blueBicycleIcon' 
+             preset: 'islands#violetIcon', // Оставим фиолетовый стиль
+             iconColor: '#a020f0'
+             // Или можно вернуть 'islands#blueBicycleIcon'
         });
         myMap.geoObjects.add(placemark);
     });
+
+    // Обработчик для кнопок "Арендовать здесь" внутри балунов
+    myMap.geoObjects.events.add('balloonopen', function (e) {
+        const placemark = e.get('target');
+        // Получаем ID точки из данных кнопки, которые мы добавили в balloonContentBody
+        const balloonContent = placemark.properties.get('balloonContentBody');
+        const pointIdMatch = balloonContent.match(/data-point-id="([^"]+)"/);
+
+        if (pointIdMatch && pointIdMatch[1]) {
+            const pointId = pointIdMatch[1];
+            const balloonElement = placemark.balloon.getElement(); // Получаем DOM элемент балуна
+
+            // Находим кнопку внутри открытого балуна
+            const rentButton = balloonElement.querySelector('.rent-button');
+            if (rentButton) {
+                 // Удаляем старый обработчик, если он есть (на всякий случай)
+                 // Создаем новую функцию обработчика с захватом pointId
+                const specificHandler = (event) => handleRentButtonClick(event, pointId);
+                // Удаляем предыдущий обработчик, если он был привязан к этой кнопке ранее
+                // (важно, если балун закрывался и открывался снова)
+                if (rentButton.handler) {
+                     rentButton.removeEventListener('click', rentButton.handler);
+                }
+                rentButton.addEventListener('click', specificHandler);
+                rentButton.handler = specificHandler; // Сохраняем ссылку на обработчик
+            }
+        } else {
+            console.warn("Не удалось извлечь pointId из балуна:", balloonContent);
+        }
+    });
+
+    // Функция-обработчик клика по кнопке аренды
+    function handleRentButtonClick(event, pointId) {
+        event.stopPropagation(); // Останавливаем всплытие события, чтобы карта не закрыла балун
+        console.log('Клик по кнопке аренды для точки ID:', pointId);
+
+        // 1. Проверяем, залогинен ли пользователь
+        const token = localStorage.getItem('authToken'); // Используем 'authToken', как раньше
+        if (!token) {
+            alert('Пожалуйста, войдите или зарегистрируйтесь, чтобы начать аренду.');
+            // Закрываем балун карты
+            myMap.balloon.close();
+            // Открываем модальное окно входа
+            openModal(loginModal);
+            return; // Прерываем выполнение
+        }
+
+        // 2. Пользователь залогинен - можно начинать процесс аренды
+        // (Пока просто выводим сообщение)
+        alert(`Вы залогинены! Начинаем процесс аренды для точки ${pointId}! (Дальнейшая логика пока не реализована)`);
+        // TODO: Реализовать следующий шаг - возможно, показать доступные велосипеды на этой точке?
+        // Или перенаправить на страницу каталога/аренды?
+
+        // Закрываем балун после клика (опционально)
+         myMap.balloon.close();
+    }
 
     // // --- Старый код Leaflet (удален) --- 
     // var map = L.map('map').setView([53.2001, 50.15], 13);
@@ -754,3 +829,28 @@ if (easterBtn && easterInput && videoModal && easterVideo) {
 } else {
     console.error('Не удалось найти все элементы для пасхалки с видео.');
 } 
+
+// --- Логика для FAQ Аккордеона ---
+document.addEventListener('DOMContentLoaded', () => {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.closest('.faq-item');
+            // Просто переключаем класс active у текущего элемента
+            item.classList.toggle('active');
+
+            // Опционально: закрыть другие открытые ответы (если нужно)
+            /*
+            if (item.classList.contains('active')) {
+                faqQuestions.forEach(otherQuestion => {
+                    const otherItem = otherQuestion.closest('.faq-item');
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            }
+            */
+        });
+    });
+}); 

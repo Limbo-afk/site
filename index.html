@@ -12,10 +12,14 @@
 </head>
 <body>
     <header>
-        <h1 class="site-title">Велопрокат "Крути Педали"</h1>
+        <!-- Заменяем H1 на ссылку с картинкой -->
+        <a href="#" class="site-logo">
+            <img src="img/logo.png" alt="Логотип Велопрокат Крути Педали" class="logo-image">
+        </a>
+        <!-- <h1 class="site-title">Велопрокат "Крути Педали"</h1> -->
         <!-- Пасхалка -->
-        <div id="easter-egg" class="easter-egg-container" style="display: none;">
-            <input type="text" id="easter-input" placeholder="Что ищем?">
+        <div id="easter-egg" style="display: none;" class="easter-egg-container">
+            <input type="text" id="easter-input" placeholder="Secret code...">
             <button id="easter-btn">Го</button>
         </div>
         <!-- Конец пасхалки -->
@@ -25,9 +29,9 @@
                  <span>ВелоСтарт</span>
              </div> -->
             <ul>
-                <li><a href="#">Главная</a></li>
+                <li><a href="#features">Почему мы?</a></li>
                 <li><a href="#catalog" id="catalog-link">Каталог</a></li>
-                <li><a href="#why-us">Почему мы?</a></li>
+                <li><a href="#map-section">Карта точек</a></li>
                 <li><a href="#how-it-works">Как это работает</a></li>
                 <li><a href="#contacts">Контакты</a></li>
             </ul>
@@ -39,7 +43,26 @@
     </header>
 
     <main>
-        <!-- Секция с картой -->
+        <!-- НОВАЯ Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Аренда велосипедов<br>по подписке от 990 ₽</h1>
+                    <img src="img/korona.png" alt="Корона" class="hero-crown">
+                    <p>Без залогов и забот о ремонте. Просто катайтесь!</p>
+                    <a href="#catalog" class="hero-cta">Смотреть каталог</a>
+                </div>
+            </div>
+            <!-- Добавляем облака -->
+            <img src="img/oblako.png" alt="" class="hero-cloud cloud-1">
+            <img src="img/oblako.png" alt="" class="hero-cloud cloud-2">
+            <img src="img/oblako.png" alt="" class="hero-cloud cloud-3">
+            <img src="img/oblako.png" alt="" class="hero-cloud cloud-4">
+            <img src="img/oblako.png" alt="" class="hero-cloud cloud-5">
+        </section>
+        <!-- КОНЕЦ Hero Section -->
+
+        <!-- Оставляем секцию с картой -->
         <section id="map-section">
             <h2>Найди ближайший велосипед</h2>
             <div class="map-layout">
@@ -113,40 +136,97 @@
             </div>
         </section>
 
-        <section class="features" id="why-us">
-            <h3>Почему стоит выбрать именно нас?</h3>
-            <p>Забудь о пробках, наслаждайся свежим воздухом и открывай красоту Самары на велосипеде! Выбирая наш велопрокат, ты выбираешь свободу, комфорт и незабываемые впечатления. Мы предлагаем не просто прокат велосипедов – мы предлагаем тебе новый взгляд на город.</p>
+        <!-- Секция FAQ -->
+        <section id="faq">
+            <h2>Вопросы и ответы</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Как работает аренда по подписке?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Вы оформляете подписку на сайте, выбираете велосипед и срок. Мы связываемся для подтверждения, привозим вам велосипед и оформляем документы. Подписка действует с момента получения. Пользуйтесь, пока он вам нужен. Если больше не нужен - просто сообщите нам, и мы заберем его.</p>
+                    </div>
+                </div>
 
-            <ul>
-                <li><strong>Широкий выбор велосипедов на любой вкус:</strong> У нас ты найдёшь велосипеды для всей семьи: от лёгких городских моделей до горных байков для активного отдыха. Мы подберем идеальный вариант, учитывая твои предпочтения и уровень подготовки.</li>
-                <li><strong>Только лучшие велосипеды:</strong> Наш парк велосипедов постоянно обновляется. Все велосипеды проходят регулярное техническое обслуживание, что гарантирует тебе безопасную и комфортную поездку. Забудь о поломках и неожиданных задержках!</li>
-                <li><strong>Удобное расположение и гибкие условия проката:</strong> Наши пункты проката расположены в удобных для тебя местах по всей Самаре. Выбери тот, что ближе к тебе, и наслаждайся свободой передвижения. Гибкие условия проката и различные тарифы позволят подобрать оптимальный вариант именно для тебя.</li>
-                <li><strong>Исключительное обслуживание:</strong> Наша дружелюбная команда всегда готова помочь тебе с выбором велосипеда, ответить на все вопросы и обеспечить комфортный процесс аренды. Мы ценим каждого клиента и стремимся сделать твой опыт незабываемым.</li>
-            </ul>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Что входит в подписку?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>В подписку входит сам велосипед и его регулярное техническое обслуживание. Замки, шлемы и другие аксессуары можно арендовать дополнительно или приобрести.</p>
+                    </div>
+                </div>
 
-            <p>Не откладывай свои приключения! Выбирай велосипед и отправляйся навстречу новым открытиям! Забронируй свой велосипед уже сегодня!</p>
-            <p>Подробности и условия использования уточняйте в приложении.</p>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Кто может оформить подписку?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Подписку может оформить любой совершеннолетний гражданин, имеющий паспорт и возможность оплатить подписку онлайн или при получении.</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Как отменить подписку?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Свяжитесь с нашей службой поддержки по телефону или email, указанным в разделе "Контакты", и сообщите о желании отменить подписку. Мы договоримся о времени возврата велосипеда.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Удаляем декоративные элементы -->
+            <!-- <img src="img/qaa.png" alt="" class="faq-side-image"> -->
+            <!-- <img src="img/star.png" alt="" class="faq-star star-1"> -->
+            <!-- <img src="img/star.png" alt="" class="faq-star star-2"> -->
+            <!-- <img src="img/star.png" alt="" class="faq-star star-3"> -->
         </section>
-
-        <!-- Секция Как это работает -->
-        <section id="how-it-works" class="info-section">
-            <h3>Как арендовать велосипед?</h3>
-            <ol>
-                <li>Найдите ближайшую станцию на карте.</li>
-                <li>Выберите велосипед и отсканируйте QR-код через наше приложение (скоро!).</li>
-                <li>Наслаждайтесь поездкой!</li>
-                <li>Верните велосипед на любую свободную станцию.</li>
-            </ol>
-        </section>
+        <!-- Конец секции FAQ -->
 
     </main>
 
+    <!-- Разделитель с горами -->
+    <div class="mountain-separator"></div>
+
     <footer id="contacts">
-        <h4>Свяжитесь с нами</h4>
-        <p>Email: <a href="mailto:semeon1009@gmail.com">semeon1009@gmail.com</a></p>
-        <p>Телефон: <a href="tel:+79277004546">+7 (927) 700-45-46</a></p>
-        <p>Telegram: <a href="https://t.me/LadnoBydetTakoe" target="_blank">@LadnoBydetTakoe</a></p>
-        <p>&copy; 2024 Велопрокат "Крути Педали"</p>
+        <div class="footer-container">
+            <!-- Колонка 1: Лого, Соцсети, Юр. Инфо -->
+            <div class="footer-column footer-column-left">
+                <a href="#" class="footer-logo">
+                    <img src="img/logo.png" alt="Логотип Велопрокат" class="footer-logo-image">
+                </a>
+                <div class="social-icons">
+                    <!-- ЗАМЕНИТЬ НА РЕАЛЬНЫЕ ССЫЛКИ И ИКОНКИ -->
+                    <a href="#" class="social-icon vk" title="ВКонтакте"><img src="img/vk_3991720.png" alt="VK"></a> 
+                    <a href="https://t.me/LadnoBydetTakoe" target="_blank" class="social-icon tg" title="Telegram"><img src="img/telegram_3670044.png" alt="Telegram"></a>
+                    <a href="#" class="social-icon wa" title="WhatsApp"><img src="img/social_10110401.png" alt="WhatsApp"></a>
+                </div>
+                <div class="legal-info">
+                    <p>ООО "Крути Педали"</p>
+                    <p>ИНН: 1234567890 ОГРН: 1234567890123</p>
+                </div>
+            </div>
+
+            <!-- Колонка 2: Контакты -->
+            <div class="footer-column footer-column-center">
+                <h4>Контакты</h4>
+                <p>Email: <a href="mailto:semeon1009@gmail.com">semeon1009@gmail.com</a></p>
+                <p>Телефон: <a href="tel:+79277004546">+7 (927) 700-45-46</a></p>
+                <p>Адрес: г. Самара, ул. Примерная, д. 1</p> 
+                <p>График: Ежедневно 10:00 - 20:00</p> 
+            </div>
+
+            <!-- Колонка 3: Документы -->
+            <div class="footer-column footer-column-right">
+                <a href="#" class="footer-link">Договор на использование сервиса</a>
+                <a href="#" class="footer-link">Политика конфиденциальности</a>
+                 <p class="copyright">&copy; 2024 Велопрокат "Крути Педали"</p>
+           </div>
+        </div>
     </footer>
 
     <!-- Модальное окно для видео (Пасхалка) -->
