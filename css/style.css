@@ -16,26 +16,31 @@ body {
 }
 
 header {
-    /* Оставляем градиент Орхидея -> Индиго для контраста */
-    background: linear-gradient(to bottom right, #DA70D6, #4B0082);
-    color: white;
+    /* Делаем фон прозрачным */
+    background: transparent;
+    /* Убираем свойства анимации отсюда, т.к. будет виден фон body */
+    /* background-size: 400% 400%; */
+    /* animation: gradientAnimation 15s ease infinite; */ 
+    color: #333; /* Оставляем темный текст */
     padding: 1rem 20px;
     text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* Добавим небольшой нижний border для визуального отделения, если фон сольется */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
-header h1.site-title { /* Используем класс */
+header h1.site-title {
     margin: 0;
     text-align: left;
-    color: #4B0082; /* Цвет Индиго */
-    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    color: #333; /* Темный цвет */
+    /* text-shadow: 1px 1px 2px rgba(255,255,255,0.5); */ /* Убираем тень */
     /* Добавляем фон и скругление */
-    background-color: rgba(255, 255, 255, 0.15); /* Полупрозрачный белый фон */
-    padding: 10px 20px; /* Отступы внутри блока */
-    border-radius: 30px; /* Скругленные углы */
-    display: inline-block; /* Чтобы padding и radius применились корректно */
+    background-color: rgba(255, 255, 255, 0.25); /* Чуть менее прозрачный фон */
+    padding: 10px 20px;
+    border-radius: 30px; 
+    display: inline-block; 
 }
 
 nav {
@@ -53,22 +58,20 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white; /* Белый текст */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Тень для читаемости */
+    color: #333; /* Темный цвет */
+    /* text-shadow: 1px 1px 2px rgba(0,0,0,0.3); */ /* Убираем тень */
     text-decoration: none;
-    /* background-color: transparent; */
-    background: linear-gradient(to bottom right, #FF00FF, #00FFFF); /* Градиент Маджента -> Циан */
+    /* Слегка меняем градиент кнопок для читаемости темного текста */
+    background: linear-gradient(to bottom right, #a0f0ff, #e0c0ff);
     padding: 10px 18px;
     border-radius: 25px;
-    transition: background 0.5s ease, transform 0.2s ease; /* Плавный переход градиента */
+    transition: background 0.5s ease, transform 0.2s ease;
     display: inline-block;
-    border: none; /* Убираем рамку */
+    border: none;
 }
 
 nav ul li a:hover {
-    /* background-color: rgba(255, 255, 255, 0.15); */
-    /* border-color: white; */
-    background: linear-gradient(to top left, #FF00FF, #00FFFF); /* Меняем направление градиента */
+    background: linear-gradient(to top left, #a0f0ff, #e0c0ff);
     transform: translateY(-2px);
 }
 
@@ -158,12 +161,19 @@ footer {
     text-align: center;
     padding: 15px;
     margin-top: 0;
-    background: linear-gradient(to top right, #DA70D6, #4B0082);
-    color: white;
+    /* Делаем фон прозрачным */
+    background: transparent;
+    /* Убираем свойства анимации отсюда */
+    /* background-size: 400% 400%; */
+    /* animation: gradientAnimation 15s ease infinite; */
+    color: #333; /* Оставляем темный текст */
+    /* Добавим небольшой верхний border */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 footer a {
-    color: #f0f0f0;
+    color: #000; /* Черный цвет для ссылок для лучшего контраста */
+    font-weight: 500;
     text-decoration: none;
 }
 
@@ -173,7 +183,7 @@ footer a:hover {
 
 footer h4 {
     margin-bottom: 15px;
-    color: white;
+    color: #333; /* Темный цвет */
 }
 
 /* Стили для секции с картой */
@@ -317,8 +327,13 @@ footer h4 {
 }
 
 /* Стили для кнопок Вход/Регистрация */
-.auth-buttons {
-    /* margin-left: auto; */
+#auth-buttons {
+    /* Скрываем блок по умолчанию, чтобы избежать мигания */
+    visibility: hidden; 
+    /* Добавляем position: relative сюда или на родительский контейнер */
+    position: relative; 
+    /* Выравнивание по вертикали, если нужно */
+    vertical-align: middle;
 }
 
 .auth-btn {
@@ -843,4 +858,157 @@ html {
 #easter-video {
     display: block;
     max-height: 80vh;
-} 
+}
+
+/* --- Стили для страницы профиля (profile.html) --- */
+.profile-container {
+    max-width: 800px; /* Или другая ширина, как у других секций */
+    margin: 40px auto; /* Центрирование и отступы сверху/снизу */
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.05); /* Слегка заметный фон */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Центрируем заголовок и кнопку */
+}
+
+.profile-container h1 {
+    margin-bottom: 30px;
+    color: #e0e0e0; /* Светлый цвет для заголовка */
+    /* Можно использовать градиент, как у других заголовков, если есть класс */
+}
+
+.profile-info {
+    background-color: rgba(0, 0, 0, 0.1); /* Фон потемнее для блока данных */
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: left; /* Выравниваем текст данных по левому краю */
+}
+
+.profile-info h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center; /* Заголовок блока данных по центру */
+    color: #f0f0f0; /* Оставляем светлым заголовок внутри темного блока */
+}
+
+.profile-info p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #fff; /* Белая метка (strong) будет на темном фоне */
+    display: flex; /* Используем flex для лучшего выравнивания */
+    justify-content: space-between; /* Разносим метку и значение */
+    flex-wrap: wrap; /* Перенос на новую строку, если не влезает */
+}
+
+.profile-info p strong {
+    color: #fff; /* Белый цвет для меток (Имя:, Email:) */
+    margin-right: 10px; /* Небольшой отступ справа */
+    flex-shrink: 0; /* Не сжимать метку */
+}
+
+.profile-info p span {
+    color: #e0e0e0; /* Делаем сами данные посветлее, почти белыми */
+    word-break: break-word; /* Перенос длинных строк (email) */
+}
+
+/* Скрываем телефон, пока не используется */
+/* #profile-phone { display: none; } */ 
+/* Или всю строку с телефоном */
+#profile-phone {
+    /* visibility: hidden; */ /* Скрывает, но оставляет место */
+    /* Лучше пока просто оставить как есть или удалить из HTML */
+}
+
+.profile-actions {
+    /* Сюда можно добавить стили, если будут другие кнопки */
+}
+
+.logout-btn {
+    /* Используем существующий стиль .auth-btn, но можно переопределить */
+    background: linear-gradient(45deg, #ff6b6b, #ee5253); /* Например, красный градиент для выхода */
+    border: none;
+    padding: 12px 25px;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(45deg, #ee5253, #ff6b6b);
+    box-shadow: 0 0 15px #ff6b6b;
+}
+
+/* Стили для контейнера профиля (иконка + меню) */
+/* Мы задали position: relative через JS, но можно и здесь */
+/* #profileContainer { position: relative; } */
+
+/* Стили для самого выпадающего меню */
+.profile-dropdown-menu {
+    display: none; /* По умолчанию скрыто (управляется JS) */
+    position: absolute;
+    top: 100%; /* Появляется под иконкой */
+    right: 0; /* Выравнивание по правому краю иконки */
+    background-color: rgba(255, 255, 255, 0.98); /* Почти непрозрачный белый */
+    min-width: 280px; /* Минимальная ширина */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    z-index: 1001; /* Выше чем шапка, если у нее есть z-index */
+    padding: 10px 0; /* Внутренние отступы сверху/снизу */
+    margin-top: 8px; /* Небольшой отступ от иконки */
+}
+
+/* Стили для пунктов меню */
+.dropdown-item {
+    display: block; /* Каждый пункт на своей строке */
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.95rem;
+    white-space: nowrap; /* Запрещаем перенос текста */
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-item .icon {
+    display: inline-block;
+    width: 20px; /* Ширина для иконки */
+    margin-right: 10px;
+    text-align: center;
+    color: #666;
+}
+
+.dropdown-item:hover:not(.disabled):not(hr) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item.disabled {
+    color: #999;
+    cursor: default;
+}
+
+.dropdown-item.bonus-info strong,
+.dropdown-item.city-info strong {
+    font-weight: 600;
+    color: #000;
+}
+
+.dropdown-item hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 8px 0;
+}
+
+/* Стили для кнопки Выход внутри меню */
+.logout-btn-dropdown {
+    color: #e74c3c; /* Красный цвет для выхода */
+    font-weight: 600;
+}
+
+.logout-btn-dropdown:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* --- Конец стилей для выпадающего меню --- */
+
+/* --- Конец стилей для страницы профиля --- */ 

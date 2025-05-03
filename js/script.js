@@ -97,6 +97,172 @@ let currentImages = [];
 let currentImageIndex = 0;
 let currentPriceInfo = {};
 
+// --- Глобальная переменная для пользователя ---
+let currentUser = null;
+
+// --- Функция обновления UI (переписана с async/await) ---
+async function updateAuthStateUI() { // Делаем функцию асинхронной
+    const authButtonsDiv = document.getElementById('auth-buttons');
+    if (!authButtonsDiv) {
+        console.error("Элемент #auth-buttons не найден!");
+        return;
+    }
+    
+    const token = localStorage.getItem('authToken');
+    let userFromToken = null;
+
+    // 1. Попытка получить данные пользователя, если есть токен
+    if (token) {
+        console.log('Найден токен, пытаемся получить профиль...');
+        try {
+            const response = await fetch('/api/profile', {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.userData) {
+                    console.log('Профиль успешно получен по токену:', data.userData);
+                    userFromToken = data.userData; 
+                } else {
+                    console.log('Ответ сервера не содержит данных пользователя, удаляем токен.');
+                    localStorage.removeItem('authToken');
+                }
+            } else {
+                console.log('Ошибка получения профиля по токену (статус:', response.status, '), удаляем токен.');
+                localStorage.removeItem('authToken');
+            }
+        } catch (error) {
+            console.error('Сетевая ошибка при запросе профиля по токену:', error);
+            localStorage.removeItem('authToken'); // На всякий случай
+        }
+    }
+    
+    // Устанавливаем currentUser глобально
+    currentUser = userFromToken; 
+    
+    // 2. Очищаем и рендерим кнопки в зависимости от currentUser
+    authButtonsDiv.innerHTML = '';
+
+    if (currentUser) {
+        // --- Пользователь вошел --- 
+        
+        // 1. Создаем контейнер для иконки и выпадающего меню
+        const profileContainer = document.createElement('div');
+        profileContainer.style.position = 'relative'; // Для позиционирования меню
+        profileContainer.style.display = 'inline-block'; // Чтобы занимал место как иконка
+
+        // 2. Создаем ссылку-триггер (саму иконку)
+        const profileTrigger = document.createElement('a');
+        profileTrigger.href = '#'; // Не переходим по клику, можно потом на profile.html
+        profileTrigger.title = `Профиль (${currentUser.firstName})`;
+        profileTrigger.style.display = 'inline-block';
+        profileTrigger.style.verticalAlign = 'middle';
+        profileTrigger.id = 'profile-icon-trigger'; // ID для стилей/логики
+        
+        const profileIcon = document.createElement('img');
+        profileIcon.src = 'profile.0ba66c2.svg'; 
+        profileIcon.alt = 'Профиль';
+        profileIcon.style.width = '30px'; 
+        profileIcon.style.height = '30px';
+        profileIcon.style.verticalAlign = 'middle';
+        profileIcon.style.cursor = 'pointer';
+        profileTrigger.appendChild(profileIcon);
+        
+        // 3. Создаем выпадающее меню (div)
+        const dropdownMenu = document.createElement('div');
+        dropdownMenu.classList.add('profile-dropdown-menu'); // Класс для CSS
+        dropdownMenu.style.display = 'none'; // Изначально скрыто
+        
+        // --- Наполняем меню --- 
+        dropdownMenu.innerHTML = `
+            <div class="dropdown-item bonus-info">
+                <span class="icon">👤</span> <!-- Заглушка иконки -->
+                Мой бонусный счёт: <strong>0 ₽</strong>
+            </div>
+            <a href="profile.html" class="dropdown-item">
+                <span class="icon">📝</span> <!-- Заглушка иконки -->
+                Персональные данные
+            </a>
+            <div class="dropdown-item disabled">
+                 <span class="icon">🎁</span> <!-- Заглушка иконки -->
+                 Мои бонусы
+            </div>
+             <div class="dropdown-item disabled">
+                 <span class="icon">💳</span> <!-- Заглушка иконки -->
+                 Банковские карты
+            </div>
+            <hr>
+            <div class="dropdown-item city-info">
+                Город: <strong>Самара</strong>
+            </div>
+            <hr>
+            <a href="#" class="dropdown-item static-link">Договор на использование сервиса</a>
+            <a href="#" class="dropdown-item static-link">Политика конфиденциальности</a>
+            <a href="#" class="dropdown-item static-link">Согласие на обработку данных</a>
+            <hr>
+        `;
+        // --- Конец наполнения --- 
+
+        // 4. Добавляем кнопку Выход в меню
+        const logoutBtn = document.createElement('button');
+        logoutBtn.textContent = 'Выход';
+        logoutBtn.classList.add('dropdown-item', 'logout-btn-dropdown'); // Стилизуем как пункт меню + спец класс
+        logoutBtn.addEventListener('click', () => {
+            currentUser = null;
+            localStorage.removeItem('authToken');
+            updateAuthStateUI(); 
+            console.log('Пользователь вышел');
+        });
+        dropdownMenu.appendChild(logoutBtn);
+
+        // 5. Добавляем триггер (иконку) и меню в контейнер
+        profileContainer.appendChild(profileTrigger);
+        profileContainer.appendChild(dropdownMenu);
+        
+        // 6. Добавляем контейнер в authButtonsDiv
+        authButtonsDiv.appendChild(profileContainer);
+        
+        // 7. Логика показа/скрытия меню
+        let hideTimeout; // Таймер для скрытия
+        profileContainer.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout); // Отменяем таймер скрытия, если он был
+            dropdownMenu.style.display = 'block';
+        });
+        profileContainer.addEventListener('mouseleave', () => {
+            // Ставим таймер, чтобы меню не скрылось мгновенно при уводе мыши
+            hideTimeout = setTimeout(() => {
+                dropdownMenu.style.display = 'none';
+            }, 300); // Задержка в мс
+        });
+
+    } else {
+        // Пользователь не вошел
+        const loginBtnUI = document.createElement('button');
+        loginBtnUI.textContent = 'Вход';
+        loginBtnUI.id = 'login-btn'; // Возвращаем ID, чтобы обработчики работали
+        loginBtnUI.classList.add('auth-btn');
+        loginBtnUI.addEventListener('click', () => openModal(loginModal));
+
+        const signupBtnUI = document.createElement('button');
+        signupBtnUI.textContent = 'Регистрация';
+        signupBtnUI.id = 'signup-btn'; // Возвращаем ID
+        signupBtnUI.classList.add('auth-btn');
+        signupBtnUI.addEventListener('click', () => openModal(signupModal));
+
+        authButtonsDiv.appendChild(loginBtnUI);
+        authButtonsDiv.appendChild(signupBtnUI);
+    }
+
+    // 3. Делаем контейнер видимым ПОСЛЕ отрисовки нужных кнопок
+    authButtonsDiv.style.visibility = 'visible';
+}
+
+// --- Вызов функции при загрузке --- 
+document.addEventListener('DOMContentLoaded', () => {
+    updateAuthStateUI(); // Вызываем асинхронную функцию
+});
+
 // Функция открытия модального окна
 function openModal(modal) {
     if (modal) {
@@ -115,10 +281,6 @@ function closeModal(modal) {
 
 // Находим ВСЕ кнопки закрытия во ВСЕХ модальных окнах
 const allCloseButtons = document.querySelectorAll('.modal .close-button');
-
-// Открытие окон по кнопкам
-loginBtn.addEventListener('click', () => openModal(loginModal));
-signupBtn.addEventListener('click', () => openModal(signupModal));
 
 // Закрытие окон по крестику (используем новый общий селектор)
 allCloseButtons.forEach(button => {
@@ -174,9 +336,9 @@ function clearErrors(form) {
     });
 }
 
-// Валидация формы входа
+// --- Валидация и отправка формы входа ---
 loginForm.addEventListener('submit', function(event) {
-    event.preventDefault(); // Отменяем стандартную отправку
+    event.preventDefault();
     clearErrors(loginForm);
     let isValid = true;
 
@@ -196,20 +358,65 @@ loginForm.addEventListener('submit', function(event) {
     }
 
     if (isValid) {
-        console.log('Форма входа валидна. Отправка данных...', {
-            phone: phoneInput.value,
+        const formData = { // Восстанавливаем объект formData
+            phone: phoneInput.value.trim(),
             password: passwordInput.value
+        };
+
+        console.log('Отправка данных входа на сервер:', { phone: formData.phone });
+
+        // Восстанавливаем fetch
+        fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(async response => { // Используем async/await как в последней рабочей версии
+            if (!response.ok) { 
+                console.log('Ошибка от сервера (вход)! Статус:', response.status, response.statusText);
+                let errorMessage = `Ошибка сервера: ${response.status} ${response.statusText}`;
+                try {
+                    const errData = await response.json(); 
+                    console.log('Удалось прочитать тело ошибки входа как JSON:', errData);
+                    if (errData && errData.message) {
+                        errorMessage = errData.message;
+                    }
+                } catch (jsonError) {
+                    console.error('Не удалось обработать тело ошибки входа как JSON:', jsonError);
+                }
+                throw new Error(errorMessage);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Ответ сервера (логин):', data);
+            if (data.success && data.token) {
+                // alert(data.message || 'Вход выполнен успешно!'); // Убираем alert, он не нужен
+                currentUser = data.user; // Устанавливаем currentUser
+                localStorage.setItem('authToken', data.token); // Сохраняем токен
+                updateAuthStateUI(); // !!! ВОТ ЭТОТ ВЫЗОВ ВАЖЕН !!!
+                closeModal(loginModal);
+                loginForm.reset();
+                clearErrors(loginForm);
+            } else {
+                if (!data.token) {
+                    throw new Error('Сервер не вернул токен авторизации.');
+                }
+                throw new Error(data.message || 'Неожиданный успешный ответ без токена.');
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка при входе:', error.message);
+            alert(`Ошибка входа: ${error.message}`);
+            localStorage.removeItem('authToken');
         });
-        // !!! Здесь в будущем будет реальная отправка данных на сервер
-        alert('Вход выполнен (симуляция)!');
-        closeModal(loginModal);
-        // Тут можно обновить интерфейс (например, скрыть кнопки Вход/Регистрация и показать имя пользователя)
+
     } else {
         console.log('Форма входа содержит ошибки.');
     }
 });
 
-// Валидация формы регистрации
+// --- Валидация и отправка формы регистрации ---
 signupForm.addEventListener('submit', function(event) {
     event.preventDefault();
     clearErrors(signupForm);
@@ -255,17 +462,55 @@ signupForm.addEventListener('submit', function(event) {
     }
 
     if (isValid) {
-        console.log('Форма регистрации валидна. Отправка данных...', {
-            fname: fnameInput.value,
-            lname: lnameInput.value,
-            phone: phoneInput.value,
-            email: emailInput.value,
-            // Пароль в реальном приложении так не передают!
+        const formData = { // Восстанавливаем formData для регистрации
+            fname: document.getElementById('signup-fname').value.trim(),
+            lname: document.getElementById('signup-lname').value.trim(),
+            phone: document.getElementById('signup-phone').value.trim(),
+            email: document.getElementById('signup-email').value.trim(),
+            password: document.getElementById('signup-password').value,
+            password_confirm: document.getElementById('signup-password-confirm').value
+        };
+
+        console.log('Отправка данных регистрации на сервер:', formData);
+
+        // Восстанавливаем fetch для регистрации
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(async response => {
+            if (!response.ok) {
+                console.log('Ошибка от сервера! Статус:', response.status, response.statusText);
+                let errorMessage = `Ошибка сервера: ${response.status} ${response.statusText}`;
+                try {
+                    const errData = await response.json(); 
+                    console.log('Удалось прочитать тело ошибки как JSON:', errData);
+                    if (errData && errData.message) {
+                        errorMessage = errData.message;
+                    }
+                } catch (jsonError) {
+                    console.error('Не удалось обработать тело ошибки как JSON:', jsonError);
+                }
+                throw new Error(errorMessage);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Ответ сервера (регистрация):', data);
+            alert(data.message || 'Регистрация прошла успешно!');
+            closeModal(signupModal);
+            signupForm.reset(); 
+            clearErrors(signupForm); 
+            openModal(loginModal); 
+        })
+        .catch(error => {
+            console.error('Ошибка при регистрации:', error.message);
+            alert(`Ошибка регистрации: ${error.message}`);
         });
-        // !!! Здесь в будущем будет реальная отправка данных на сервер
-        alert('Регистрация успешна (симуляция)!');
-        closeModal(signupModal);
-        // Тут можно автоматически выполнить вход или предложить войти
+
     } else {
         console.log('Форма регистрации содержит ошибки.');
     }

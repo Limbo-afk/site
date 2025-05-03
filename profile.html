@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - Велопрокат</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Стили можно будет дополнить, если понадобится -->
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Удаляем весь div logo -->
+            <!-- <div class="logo">
+                <span>ВелоСтарт</span>
+            </div> -->
+            <ul class="nav-links">
+                <li><a href="index.html#home">Главная</a></li>
+                <li><a href="index.html#catalog">Каталог</a></li>
+                <li><a href="index.html#why-us">Почему мы?</a></li>
+                <li><a href="index.html#how-it-works">Как это работает</a></li>
+                <li><a href="index.html#contacts">Контакты</a></li>
+            </ul>
+            <!-- Кнопки входа/выхода здесь не нужны, т.к. мы уже в профиле -->
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <h1>Личный кабинет</h1>
+        
+        <div class="profile-info">
+            <h2>Ваши данные</h2>
+            <p><strong>Имя:</strong> <span id="profile-fname">Загрузка...</span></p>
+            <p><strong>Фамилия:</strong> <span id="profile-lname">Загрузка...</span></p>
+            <p><strong>Email:</strong> <span id="profile-email">Загрузка...</span></p>
+            <p><strong>Телефон:</strong> <span id="profile-phone">Загрузка...</span></p> 
+            <!-- Телефон пока отображать не будем, но ID оставим на будущее -->
+        </div>
+
+        <div class="profile-actions">
+            <!-- Сюда можно будет добавить кнопки редактирования -->
+            <button id="logout-button" class="auth-btn logout-btn">Выйти</button> 
+        </div>
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2024 ВелоСтарт. Все права защищены.</p>
+        <div class="contacts">
+            <p>Телефон: <a href="tel:+70000000000">+7 (000) 000-00-00</a></p>
+            <p>Email: <a href="mailto:info@velostart.ru">info@velostart.ru</a></p>
+        </div>
+    </footer>
+
+    <script src="js/profile.js"></script> 
+</body>
+</html> 
