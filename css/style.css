@@ -13,6 +13,7 @@ body {
     background-size: 400% 400%; /* Увеличиваем размер для анимации */
     animation: gradientAnimation 15s ease infinite; /* Применяем анимацию */
     color: #333; /* Основной цвет текста оставляем темным */
+    overflow-x: hidden; /* Добавляем это */
 }
 
 header {
@@ -942,17 +943,18 @@ html {
 
 /* Стили для самого выпадающего меню */
 .profile-dropdown-menu {
-    display: none; /* По умолчанию скрыто (управляется JS) */
+    display: none; 
     position: absolute;
-    top: 100%; /* Появляется под иконкой */
-    right: 0; /* Выравнивание по правому краю иконки */
-    background-color: rgba(255, 255, 255, 0.98); /* Почти непрозрачный белый */
-    min-width: 280px; /* Минимальная ширина */
+    top: 100%; 
+    right: 0; /* Возвращаем выравнивание по правому краю */
+    /* left: 0; */ /* Убираем выравнивание по левому краю */
+    background-color: rgba(255, 255, 255, 0.98); 
+    min-width: 280px; 
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     border-radius: 8px;
-    z-index: 1001; /* Выше чем шапка, если у нее есть z-index */
-    padding: 10px 0; /* Внутренние отступы сверху/снизу */
-    margin-top: 8px; /* Небольшой отступ от иконки */
+    z-index: 1001; 
+    padding: 10px 0; 
+    margin-top: 8px; 
 }
 
 /* Стили для пунктов меню */
