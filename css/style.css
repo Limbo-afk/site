@@ -393,48 +393,77 @@ footer {
 
 .map-layout {
     display: flex;
-    align-items: flex-start;
-    gap: 30px;
+    align-items: flex-start; /* Выравнивание по верху */
+    gap: 40px; /* Увеличим разрыв */
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto; /* Возвращаем центрирование */
+    /* justify-content: flex-end; */ /* Убираем прижатие вправо */
 }
 
+/* Убираем стили, так как контейнер теперь в HTML */
+/*
 .map-image-container {
-    /* Убираем фон, паддинг и скругление отсюда */
-    /* background-color: #E0B0FF; */
-    /* padding: 0; */
-    /* border-radius: 10px; */
-    flex: 1 1 40%;
-    text-align: center;
+    ...
+}
+*/
+
+/* Стили для левой колонки с информацией */
+.map-info-container {
+    flex: 1 1 40%; /* Занимает левую часть */
+    padding-top: 20px; /* Небольшой отступ сверху */
+    text-align: left; /* Выравниваем все влево */
 }
 
-.map-image-container img {
-    /* Оставляем стили для самой картинки */
-    max-width: 100%;
+.map-info-compass {
+    display: block;
+    width: 150px; /* Размер компаса, подберем */
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* margin: 0 auto 25px auto; */ /* Убираем центрирование */
+    margin: 0 0 25px 5%; /* Добавляем отступ слева */
 }
 
-/* Стили для подписи к картинке */
-.image-caption {
-    margin-top: 10px;
-    font-style: italic;
-    font-size: 0.9em;
-    color: #4B0082; /* Индиго, чтобы было видно на светлом фоне */
-    font-weight: 500;
-    text-shadow: 1px 1px 2px rgba(255,255,255,0.3); /* Легкая тень */
+.map-info-steps {
+    list-style: none; /* Убираем стандартные маркеры */
+    padding: 0;
+    margin: 0;
+    text-align: left; /* Текст шагов влево */
+    color: #4B0082; /* Фиолетовый цвет текста */
+    font-size: 1.1rem; /* Делаем текст чуть крупнее */
+    line-height: 1.6;
+}
+
+.map-info-steps li {
+    margin-bottom: 10px;
+    padding-left: 25px; /* Отступ для кастомного маркера */
+    position: relative;
+}
+
+/* Добавляем кастомные маркеры (кружки) */
+.map-info-steps li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px; /* Положение маркера по вертикали */
+    width: 8px;
+    height: 8px;
+    background-color: #a020f0; /* Цвет маркера */
+    border-radius: 50%;
 }
 
 .map-container {
-    flex: 1 1 60%;
+    /* flex: 1 1 60%; */ /* Задаем через width ниже */
+    width: 50%; /* Задаем ширину */
+    /* margin-left: auto; */ /* Убираем авто-отступ */
+    /* margin-right: 5%; */ /* Убираем правый отступ */
+    flex-shrink: 0; /* Не сжимать контейнер карты */
 }
 
 #map {
-    height: 450px;
+    height: 450px; /* Оставим максимальную высоту, но aspect-ratio будет главнее */
     width: 100%;
     border-radius: 10px;
     overflow: hidden;
+    aspect-ratio: 1; /* Делаем карту квадратной */
 }
 
 /* Стили для секции "Как это работает" */
@@ -654,10 +683,21 @@ html {
     text-align: center;
 }
 
+/* Убираем стили для закомментированного h2 */
+/*
 #catalog h2 {
     color: #4B0082;
     margin-bottom: 30px;
-    text-shadow: 1px 1px 3px rgba(255,255,255,0.4); /* Тень для читаемости */
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.4);
+}
+*/
+
+/* Стили для изображения-заголовка каталога */
+.catalog-title-image {
+    display: block; /* Чтобы margin: auto работало */
+    margin: 0 auto 30px auto; /* Центрирование и нижний отступ */
+    height: 240px; /* Увеличиваем высоту в 4 раза */
+    width: auto; /* Ширина автоматически */
 }
 
 .catalog-grid {
@@ -666,6 +706,54 @@ html {
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative; /* Добавляем для позиционирования дочерних элементов */
+}
+
+/* Стили для декоративной картинки в каталоге */
+.catalog-arrow {
+    position: absolute;
+    left: -270px; /* Корректируем left для новой ширины */
+    top: -60px;   /* Поднимаем еще выше */
+    width: 240px; /* Увеличиваем ширину в 3 раза */
+    height: auto;
+    z-index: 1; /* Чуть выше надписи, на всякий случай */
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.catalog-decoration {
+    position: absolute;
+    left: -370px; /* Сдвигаем еще левее */
+    top: 50px;    /* Поднимаем обратно */
+    width: 400px; /* Увеличиваем размер в два раза */
+    height: auto;
+    z-index: 0; /* На том же уровне или чуть ниже карточек */
+    pointer-events: none; /* Не мешать кликам */
+    opacity: 0.7; /* Немного прозрачности */
+}
+
+/* Стили для правых декоративных картинок */
+.catalog-arrow-right {
+    position: absolute;
+    right: -270px; /* Зеркально от left у .catalog-arrow */
+    top: -60px;   /* Тот же top */
+    width: 240px; /* Та же ширина */
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.8;
+    transform: scaleX(-1); /* Отзеркаливаем по горизонтали */
+}
+
+.catalog-decoration-right {
+    position: absolute;
+    right: -370px; /* Зеркально от left у .catalog-decoration */
+    top: 50px;    /* Тот же top */
+    width: 400px; /* Та же ширина */
+    height: auto;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.7;
 }
 
 .bike-card {
@@ -1301,6 +1389,8 @@ html {
     /* background-color: rgba(255, 255, 255, 0.9); */
     border-radius: 0 !important;
     box-shadow: none !important;
+    position: relative; /* Добавляем для позиционирования дочерних элементов */
+    overflow: hidden; /* Скрываем части картинок, выходящие за пределы секции */
 }
 
 #faq h2 {
@@ -1382,4 +1472,17 @@ html {
 
 /* Конец стилей FAQ */
 
-/* Стили для разделителя с горами */ 
+/* --- Стили для декоративных картинок в FAQ --- */
+.faq-side-image {
+    position: absolute;
+    top: 25%; /* Поднимаем выше, к первому вопросу */
+    right: 20%; /* Двигаем чуть правее */
+    transform: translateY(-50%); /* Оставляем вертикальное центрирование относительно новой точки top */
+    width: 150px; /* Немного уменьшим облако */
+    height: auto;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* --- Конец стилей для декоративных картинок --- */ 

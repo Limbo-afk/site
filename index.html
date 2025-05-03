@@ -66,10 +66,17 @@
         <section id="map-section">
             <h2>Найди ближайший велосипед</h2>
             <div class="map-layout">
-                <div class="map-image-container">
-                    <img src="img/021e5a9107e72d12e727bbaf99899cae.jpg" alt="Велосипедист в городе">
-                    <p class="image-caption">Это не велик, но всё равно круто</p>
+                <!-- Левая колонка: Инфо + Картинка -->
+                <div class="map-info-container">
+                    <img src="img/compas.png" alt="Компас" class="map-info-compass">
+                    <ol class="map-info-steps">
+                        <li>Найдите удобную точку на карте.</li>
+                        <li>Кликните на фиолетовую метку.</li>
+                        <li>Смотрите детали и часы работы.</li>
+                        <li>Нажмите 'Арендовать здесь' (потребуется вход).</li>
+                    </ol>
                 </div>
+                <!-- Правая колонка: Карта -->
                 <div class="map-container">
                     <div id="map"></div>
                 </div>
@@ -78,8 +85,13 @@
 
         <!-- Новая секция Каталог -->
         <section id="catalog">
-            <h2>Наш Каталог</h2>
+            <!-- <h2>Наш Каталог</h2> -->
+            <img src="img/catalog2.png" alt="Наш Каталог" class="catalog-title-image">
             <div class="catalog-grid">
+                <!-- Декоративные изображения -->
+                <img src="img/strelka.png" alt="Стрелка" class="catalog-arrow">
+                <img src="img/tochto2.png" alt="Декоративное изображение каталога" class="catalog-decoration">
+                
                 <!-- Карточка 1 -->
                 <div class="bike-card bike-card-clickable" 
                      data-name="Городской Комфорт"
@@ -133,6 +145,10 @@
                     </div>
                     <button class="want-bike-btn">Хочу этот велик</button>
                 </div>
+
+                <!-- Декоративные изображения (правые) -->
+                <img src="img/strelka.png" alt="Стрелка" class="catalog-arrow-right">
+                <img src="img/tochto2.png" alt="Декоративное изображение каталога" class="catalog-decoration-right">
             </div>
         </section>
 
@@ -180,10 +196,7 @@
                 </div>
             </div>
             <!-- Удаляем декоративные элементы -->
-            <!-- <img src="img/qaa.png" alt="" class="faq-side-image"> -->
-            <!-- <img src="img/star.png" alt="" class="faq-star star-1"> -->
-            <!-- <img src="img/star.png" alt="" class="faq-star star-2"> -->
-            <!-- <img src="img/star.png" alt="" class="faq-star star-3"> -->
+            <img src="img/qaa.png" alt="" class="faq-side-image">
         </section>
         <!-- Конец секции FAQ -->
 
